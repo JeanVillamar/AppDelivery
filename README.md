@@ -1,7 +1,3 @@
-Perfecto. Aquí te lo dejo listo para **copiar y pegar directamente en tu `README.md`**, limpio, profesional y sin mencionar procesos internos 👇
-
----
-
 # 📱 AppDelivery
 
 Aplicación móvil de delivery desarrollada en **Flutter**, orientada a la gestión de pedidos, rutas y pagos en tiempo real.
