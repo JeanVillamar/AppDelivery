@@ -1,0 +1,22 @@
+# --- GENERAL ---
+.DS_Store
+*.log
+.env
+
+# --- BACKEND (Node.js) ---
+BackendDeliveryMySQL-main/node_modules/
+BackendDeliveryMySQL-main/serviceAccountKey.json
+BackendDeliveryMySQL-main/.fvm/
+
+# --- FRONTEND (Flutter) ---
+flutter_delivery_mysql-master/.dart_tool/
+flutter_delivery_mysql-master/.idea/
+flutter_delivery_mysql-master/android/local.properties
+flutter_delivery_mysql-master/build/
+flutter_delivery_mysql-master/ios/Pods/
+flutter_delivery_mysql-master/ios/.symlinks/
+flutter_delivery_mysql-master/ios/Flutter/Generated.xcconfig
+flutter_delivery_mysql-master/ios/Flutter/flutter_export_environment.sh
+flutter_delivery_mysql-master/macos/Flutter/Generated.xcconfig
+flutter_delivery_mysql-master/*.iml
+flutter_delivery_mysql-master/.fvm/flutter_sdk
