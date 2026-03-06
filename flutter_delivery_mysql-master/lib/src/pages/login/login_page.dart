@@ -19,7 +19,7 @@ class LoginPage extends StatelessWidget {
           _boxForm(context),
           Column( // POSICIONAR ELEMENTOS UNO DEBAJO DEL OTRO (VERTICAL)
             children: [
-              _imageCover(),
+                _imageCover(),
               _textAppName()
             ],
           ),
@@ -38,9 +38,9 @@ class LoginPage extends StatelessWidget {
 
   Widget _textAppName() {
     return Text(
-      'DELIVERY MYSQL',
+      'RapiBite',
       style: TextStyle(
-        fontSize: 20,
+        fontSize: 25,
         fontWeight: FontWeight.bold,
         color: Colors.black
       ),
@@ -56,7 +56,7 @@ class LoginPage extends StatelessWidget {
         boxShadow: <BoxShadow>[
           BoxShadow(
             color: Colors.black54,
-            blurRadius: 15,
+            blurRadius: 50,
             offset: Offset(0, 0.75)
           )
         ]
@@ -135,29 +135,31 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget _textDontHaveAccount() {
-    return Row( // UBICAR ELEMENTOS UNO AL LADO DEL OTRO (HORIZONTAL)
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          '¿No tienes cuenta?',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 17
+    return SafeArea(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            '¿No tienes cuenta?',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 17,
+            ),
           ),
-        ),
-        SizedBox(width: 7),
-        GestureDetector(
-          onTap: () => con.goToRegisterPage(),
-          child: Text(
-              'Registrate Aqui',
+          SizedBox(width: 7),
+          GestureDetector(
+            onTap: () => con.goToRegisterPage(),
+            child: Text(
+              'Regístrate Aquí',
               style: TextStyle(
-                  color: Colors.amber,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 17
+                color: Colors.amber,
+                fontWeight: FontWeight.bold,
+                fontSize: 17,
               ),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

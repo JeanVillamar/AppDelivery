@@ -106,8 +106,8 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primaryColor: Colors.amber,
         colorScheme: ColorScheme(
-          primary: Colors.amber,
-          secondary: Colors.amberAccent,
+          primary: Color(0xFFD62828),
+          secondary: Color(0xFFF4A261),
           brightness: Brightness.light,
           onBackground: Colors.grey,
           onPrimary: Colors.grey,
