@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 
 class UsersProvider extends GetConnect {
 
-  String url = Environment.API_URL + 'api/users';
+  String url = '${Environment.API_URL}api/users';
   
   User userSession = User.fromJson(GetStorage().read('user') ?? {});
 

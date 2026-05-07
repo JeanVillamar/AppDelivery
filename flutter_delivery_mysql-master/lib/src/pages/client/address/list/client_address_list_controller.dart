@@ -1,10 +1,6 @@
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:udemy_flutter_delivery/src/models/address.dart';
-import 'package:udemy_flutter_delivery/src/models/order.dart';
-import 'package:udemy_flutter_delivery/src/models/product.dart';
-import 'package:udemy_flutter_delivery/src/models/response_api.dart';
 import 'package:udemy_flutter_delivery/src/models/user.dart';
 import 'package:udemy_flutter_delivery/src/providers/address_provider.dart';
 import 'package:udemy_flutter_delivery/src/providers/orders_provider.dart';
@@ -24,7 +20,7 @@ class ClientAddressListController extends GetxController {
 
   Future<List<Address>> getAddress() async {
     address = await addressProvider.findByUser(user.id ?? '');
-    print('Address ${address}');
+    print('Address $address');
     Address a = Address.fromJson(GetStorage().read('address') ?? {}) ; // DIRECCION SELECCIONADA POR EL USUARIO
     int index = address.indexWhere((ad) => ad.id == a.id);
 
@@ -43,7 +39,7 @@ class ClientAddressListController extends GetxController {
 
   void handleRadioValueChange(int? value) {
     radioValue.value = value!;
-    print('VALOR SELECCIONADO ${value}');
+    print('VALOR SELECCIONADO $value');
     GetStorage().write('address', address[value].toJson());
     update();
   }

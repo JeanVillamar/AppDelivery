@@ -8,6 +8,8 @@ class ClientOrdersCreatePage extends StatelessWidget {
 
   ClientOrdersCreateController con = Get.put(ClientOrdersCreateController());
 
+  ClientOrdersCreatePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Obx (() => Scaffold(
@@ -27,7 +29,7 @@ class ClientOrdersCreatePage extends StatelessWidget {
           ),
         ),
       ),
-      body: con.selectedProducts.length > 0
+      body: con.selectedProducts.isNotEmpty
       ? ListView(
         children: con.selectedProducts.map((Product product) {
           return _cardProduct(product);
@@ -177,7 +179,7 @@ class ClientOrdersCreatePage extends StatelessWidget {
   }
 
   Widget _imageProduct(Product product) {
-    return Container(
+    return SizedBox(
       height: 70,
       width: 70,
       // padding: EdgeInsets.all(2),

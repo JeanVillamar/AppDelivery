@@ -56,10 +56,10 @@ class Order {
   static List<Order> fromJsonList(List<dynamic> jsonList) {
     List<Order> toList = [];
 
-    jsonList.forEach((item) {
+    for (var item in jsonList) {
       Order order = Order.fromJson(item);
       toList.add(order);
-    });
+    }
 
     return toList;
   }

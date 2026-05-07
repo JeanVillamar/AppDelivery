@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:udemy_flutter_delivery/src/models/response_api.dart';
@@ -23,8 +22,8 @@ class LoginController extends GetxController {
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
 
-    print('Email ${email}');
-    print('Password ${password}');
+    print('Email $email');
+    print('Password $password');
 
     if (isValidForm(email, password)) {
 

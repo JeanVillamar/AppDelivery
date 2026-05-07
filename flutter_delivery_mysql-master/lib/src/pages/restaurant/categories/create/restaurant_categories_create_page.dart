@@ -6,6 +6,8 @@ class RestaurantCategoriesCreatePage extends StatelessWidget {
 
   RestaurantCategoriesCreateController con = Get.put(RestaurantCategoriesCreateController());
 
+  RestaurantCategoriesCreatePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

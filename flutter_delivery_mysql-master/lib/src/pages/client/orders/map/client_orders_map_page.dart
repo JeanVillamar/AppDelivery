@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:udemy_flutter_delivery/src/pages/client/address/map/client_address_map_controller.dart';
 import 'package:udemy_flutter_delivery/src/pages/client/orders/map/client_orders_map_controller.dart';
-import 'package:udemy_flutter_delivery/src/pages/delivery/orders/map/delivery_orders_map_controller.dart';
 
 class ClientOrdersMapPage extends StatelessWidget {
 
   ClientOrdersMapController con = Get.put(ClientOrdersMapController());
+
+  ClientOrdersMapPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class ClientOrdersMapPage extends StatelessWidget {
       backgroundColor: Colors.grey[900],
       body: Stack(
         children: [
-          Container(
+          SizedBox(
               height: MediaQuery.of(context).size.height * 0.67,
               child: _googleMaps()
           ),
@@ -127,7 +127,7 @@ class ClientOrdersMapPage extends StatelessWidget {
   }
 
   Widget _imageClient() {
-    return Container(
+    return SizedBox(
       height: 50,
       width: 50,
       // padding: EdgeInsets.all(2),

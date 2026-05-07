@@ -6,6 +6,8 @@ class ClientProfileInfoPage extends StatelessWidget {
 
   ClientProfileInfoController con = Get.put(ClientProfileInfoController());
 
+  ClientProfileInfoPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

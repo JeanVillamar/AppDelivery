@@ -34,7 +34,7 @@ class ClientAddressCreateController extends GetxController {
         enableDrag: false
     );
 
-    print('REF POINT MAP ${refPointMap}');
+    print('REF POINT MAP $refPointMap');
     refPointController.text = refPointMap['address'];
     latRefPoint = refPointMap['lat'];
     lngRefPoint = refPointMap['lng'];

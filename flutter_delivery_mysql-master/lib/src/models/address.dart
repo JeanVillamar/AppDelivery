@@ -34,10 +34,10 @@ class Address {
   static List<Address> fromJsonList(List<dynamic> jsonList) {
     List<Address> toList = [];
 
-    jsonList.forEach((item) {
+    for (var item in jsonList) {
       Address address = Address.fromJson(item);
       toList.add(address);
-    });
+    }
 
     return toList;
   }

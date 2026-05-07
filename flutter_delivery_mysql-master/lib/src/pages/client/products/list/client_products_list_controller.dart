@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:udemy_flutter_delivery/src/models/category.dart';
 import 'package:udemy_flutter_delivery/src/models/product.dart';
-import 'package:udemy_flutter_delivery/src/pages/client/products/detail/client_products_detail_controller.dart';
 import 'package:udemy_flutter_delivery/src/pages/client/products/detail/client_products_detail_page.dart';
 import 'package:udemy_flutter_delivery/src/providers/categories_provider.dart';
 import 'package:udemy_flutter_delivery/src/providers/products_provider.dart';
@@ -35,9 +34,9 @@ class ClientProductsListController extends GetxController {
         selectedProducts = Product.fromJsonList(GetStorage().read('shopping_bag'));
       }
 
-      selectedProducts.forEach((p) {
+      for (var p in selectedProducts) {
         items.value = items.value + (p.quantity!);
-      });
+      }
 
     }
   }
@@ -50,7 +49,7 @@ class ClientProductsListController extends GetxController {
 
     searchOnStoppedTyping = Timer(duration, () {
       productName.value = text;
-      print('TEXTO COMPLETO: ${text}');
+      print('TEXTO COMPLETO: $text');
     });
   }
 

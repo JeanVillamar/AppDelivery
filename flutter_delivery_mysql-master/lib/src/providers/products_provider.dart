@@ -10,7 +10,7 @@ import 'package:udemy_flutter_delivery/src/models/user.dart';
 import 'package:path/path.dart';
 
 class ProductsProvider extends GetConnect {
-  String url = Environment.API_URL + 'api/products';
+  String url = '${Environment.API_URL}api/products';
 
   User userSession = User.fromJson(GetStorage().read('user') ?? {});
 

@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -58,9 +56,9 @@ class ClientProductsDetailController extends GetxController {
       Fluttertoast.showToast(msg: 'Producto agregado');
 
       productsListController.items.value = 0;
-      selectedProducts.forEach((p) {
+      for (var p in selectedProducts) {
         productsListController.items.value = productsListController.items.value + p.quantity!;
-      });
+      }
 
     }
     else {

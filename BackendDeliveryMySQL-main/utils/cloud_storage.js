@@ -1,4 +1,4 @@
-const { Storage } = require('@google-cloud/storage');
+    const { Storage } = require('@google-cloud/storage');
 const { format } = require('util');
 const env = require('../config/env')
 const url = require('url');
@@ -11,7 +11,7 @@ const storage = new Storage({
     keyFilename: './serviceAccountKey.json'
 });
 
-const bucket = storage.bucket("gs://udemy-delivery-mysql.appspot.com/");
+const bucket = storage.bucket("gs://app-delivery-7680d.firebasestorage.app/");
 
 /**
  * Subir el archivo a Firebase Storage

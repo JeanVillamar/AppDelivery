@@ -17,10 +17,10 @@ class MercadoPagoCardHolder {
   static List<MercadoPagoCardHolder> fromJsonList(List<dynamic> jsonList) {
     List<MercadoPagoCardHolder> toList = [];
 
-    jsonList.forEach((item) {
+    for (var item in jsonList) {
       MercadoPagoCardHolder model = MercadoPagoCardHolder.fromJson(item);
       toList.add(model);
-    });
+    }
 
     return toList;
   }

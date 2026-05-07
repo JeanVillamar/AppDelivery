@@ -1,6 +1,4 @@
-import 'dart:convert';
 
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:udemy_flutter_delivery/src/models/address.dart';
@@ -111,7 +109,7 @@ class ClientPaymentsInstallmentsController extends GetxController {
           total.value
       );
       paymentMethodInstallments = result;
-      print('RESULT: ${result}');
+      print('RESULT: $result');
 
       if (result.payerCosts != null) {
         installmentsList.clear();
@@ -122,9 +120,9 @@ class ClientPaymentsInstallmentsController extends GetxController {
 
   void getTotal() {
     total.value = 0.0;
-    selectedProducts.forEach((product) {
+    for (var product in selectedProducts) {
       total.value = total.value + (product.quantity! * product.price!);
-    });
+    }
   }
 
   void badRequestProcess(dynamic data){

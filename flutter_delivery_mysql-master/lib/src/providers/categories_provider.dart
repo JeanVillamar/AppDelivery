@@ -7,7 +7,7 @@ import 'package:udemy_flutter_delivery/src/models/user.dart';
 
 class CategoriesProvider extends GetConnect {
 
-  String url = Environment.API_URL + 'api/categories';
+  String url = '${Environment.API_URL}api/categories';
 
   User userSession = User.fromJson(GetStorage().read('user') ?? {});
 

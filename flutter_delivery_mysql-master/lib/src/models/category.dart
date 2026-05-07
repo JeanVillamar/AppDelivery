@@ -25,10 +25,10 @@ class Category {
   static List<Category> fromJsonList(List<dynamic> jsonList) {
     List<Category> toList = [];
 
-    jsonList.forEach((item) {
+    for (var item in jsonList) {
       Category category = Category.fromJson(item);
       toList.add(category);
-    });
+    }
 
     return toList;
   }

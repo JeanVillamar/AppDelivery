@@ -53,7 +53,7 @@ void main() async {
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -109,14 +109,12 @@ class _MyAppState extends State<MyApp> {
           primary: Color(0xFFD62828),
           secondary: Color(0xFFF4A261),
           brightness: Brightness.light,
-          onBackground: Colors.grey,
           onPrimary: Colors.grey,
           surface: Colors.grey,
           onSurface: Colors.grey,
           error: Colors.grey,
           onError: Colors.grey,
-          onSecondary: Colors.grey,
-          background: Colors.grey
+          onSecondary: Colors.grey
         )
       ),
       navigatorKey: Get.key,

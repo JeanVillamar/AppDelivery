@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -43,10 +42,10 @@ class RestaurantProductsCreateController extends GetxController {
     String name = nameController.text;
     String description = descriptionController.text;
     String price = priceController.text;
-    print('NAME: ${name}');
-    print('DESCRIPTION: ${description}');
-    print('PRICE: ${price}');
-    print('ID CATEGORY: ${idCategory}');
+    print('NAME: $name');
+    print('DESCRIPTION: $description');
+    print('PRICE: $price');
+    print('ID CATEGORY: $idCategory');
     ProgressDialog progressDialog = ProgressDialog(context: context);
 
     if (isValidForm(name, description, price)) {

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:udemy_flutter_delivery/src/models/order.dart';
 import 'package:udemy_flutter_delivery/src/pages/client/orders/list/client_orders_list_controller.dart';
-import 'package:udemy_flutter_delivery/src/pages/delivery/orders/list/delivery_orders_list_controller.dart';
-import 'package:udemy_flutter_delivery/src/pages/restaurant/orders/list/restaurant_orders_list_controller.dart';
 import 'package:udemy_flutter_delivery/src/utils/relative_time_util.dart';
 import 'package:udemy_flutter_delivery/src/widgets/no_data_widget.dart';
 
 class ClientOrdersListPage extends StatelessWidget {
 
   ClientOrdersListController con = Get.put(ClientOrdersListController());
+
+  ClientOrdersListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class ClientOrdersListPage extends StatelessWidget {
                   future: con.getOrders(status),
                   builder: (context, AsyncSnapshot<List<Order>> snapshot) {
                     if (snapshot.hasData) {
-                      if (snapshot.data!.length > 0) {
+                      if (snapshot.data!.isNotEmpty) {
                         return ListView.builder(
                             itemCount: snapshot.data?.length ?? 0,
                             itemBuilder: (_, index) {

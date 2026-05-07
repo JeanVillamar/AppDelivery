@@ -10,6 +10,8 @@ class RestaurantOrdersDetailPage extends StatelessWidget {
 
   RestaurantOrdersDetailController con = Get.put(RestaurantOrdersDetailController());
 
+  RestaurantOrdersDetailPage({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +93,7 @@ class RestaurantOrdersDetailPage extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 20),
       child: ListTile(
         title: Text('Fecha del pedido'),
-        subtitle: Text('${RelativeTimeUtil.getRelativeTime(con.order.timestamp ?? 0)}'),
+        subtitle: Text(RelativeTimeUtil.getRelativeTime(con.order.timestamp ?? 0)),
         trailing: Icon(Icons.timer),
       ),
     );
@@ -129,7 +131,7 @@ class RestaurantOrdersDetailPage extends StatelessWidget {
   }
 
   Widget _imageProduct(Product product) {
-    return Container(
+    return SizedBox(
       height: 50,
       width: 50,
       // padding: EdgeInsets.all(2),
@@ -229,7 +231,7 @@ class RestaurantOrdersDetailPage extends StatelessWidget {
         items: _dropDownItems(users),
         value: con.idDelivery.value == '' ? null : con.idDelivery.value,
         onChanged: (option) {
-          print('Opcion seleccionada ${option}');
+          print('Opcion seleccionada $option');
           con.idDelivery.value = option.toString();
         },
       ),
@@ -238,11 +240,12 @@ class RestaurantOrdersDetailPage extends StatelessWidget {
 
   List<DropdownMenuItem<String>> _dropDownItems(List<User> users) {
     List<DropdownMenuItem<String>> list = [];
-    users.forEach((user) {
+    for (var user in users) {
       list.add(DropdownMenuItem(
+        value: user.id,
         child: Row(
           children: [
-            Container(
+            SizedBox(
               height: 35,
               width: 35,
               child: FadeInImage(
@@ -258,9 +261,8 @@ class RestaurantOrdersDetailPage extends StatelessWidget {
             Text(user.name ?? ''),
           ],
         ),
-        value: user.id,
       ));
-    });
+    }
 
     return list;
   }

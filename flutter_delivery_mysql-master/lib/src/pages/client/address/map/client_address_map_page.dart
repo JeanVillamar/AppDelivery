@@ -7,6 +7,8 @@ class ClientAddressMapPage extends StatelessWidget {
 
   ClientAddressMapController con = Get.put(ClientAddressMapController());
 
+  ClientAddressMapPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
@@ -39,17 +41,17 @@ class ClientAddressMapPage extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 30),
       child: ElevatedButton(
         onPressed: () => con.selectRefPoint(context),
-        child: Text(
-          'SELECCIONAR ESTE PUNTO',
-          style: TextStyle(
-            color: Colors.black
-          ),
-        ),
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30)
           ),
           padding: EdgeInsets.all(15)
+        ),
+        child: Text(
+          'SELECCIONAR ESTE PUNTO',
+          style: TextStyle(
+            color: Colors.black
+          ),
         ),
 
       ),

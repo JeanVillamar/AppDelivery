@@ -38,9 +38,9 @@ class DeliveryOrdersDetailController extends GetxController {
 
   void getTotal() {
     total.value = 0.0;
-    order.products!.forEach((product) {
+    for (var product in order.products!) {
       total.value = total.value + (product.quantity! * product.price!);
-    });
+    }
   }
 
 }

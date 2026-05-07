@@ -1,117 +1,100 @@
-# 📱 AppDelivery
+# AppDelivery
 
-Aplicación móvil de delivery desarrollada en **Flutter**, orientada a la gestión de pedidos, rutas y pagos en tiempo real.
-Integra geolocalización con Google Maps, generación dinámica de rutas y notificaciones push.
+Monorepo de una plataforma de delivery con cliente movil en Flutter y backend en Node.js + MySQL.
 
-🔗 Repositorio: [https://github.com/JeanVillamar/AppDelivery](https://github.com/JeanVillamar/AppDelivery)
+Este README es la vista general del proyecto.
+La documentacion tecnica detallada de cada modulo esta en:
 
----
+- Backend: [BackendDeliveryMySQL-main/README.md](BackendDeliveryMySQL-main/README.md)
+- Frontend: [flutter_delivery_mysql-master/README.md](flutter_delivery_mysql-master/README.md)
 
-## ✨ Funcionalidades
+## 1. Vision general
 
-* Autenticación de usuarios
-* Gestión de productos
-* Carrito de compras
-* Creación y seguimiento de pedidos
-* Geolocalización en tiempo real
-* Generación de rutas dinámicas (Polylines)
-* Procesamiento de pagos con tarjeta
-* Notificaciones push
-* Separación de roles (Cliente / Delivery)
+AppDelivery implementa un flujo multirol:
 
----
+- Cliente: selecciona productos, paga y monitorea pedido.
+- Restaurante: gestiona catalogo y despacho.
+- Repartidor: recibe asignaciones, comparte ubicacion y confirma entrega.
 
-## 🏗️ Arquitectura
+## 2. Arquitectura de alto nivel
 
-Estructura modular basada en separación de responsabilidades:
-
-```
-lib/
- ├─ src/
- │   ├─ pages/        → Interfaces de usuario
- │   ├─ controllers/  → Lógica de negocio
- │   ├─ providers/    → Servicios externos (API, Push, Maps)
- │   ├─ models/       → Modelos de datos
- │   ├─ utils/        → Utilidades
- │   └─ environment/  → Configuración de entorno
+```mermaid
+flowchart LR
+    A[Flutter App] -->|REST| B[Node.js API]
+    A -->|Socket.IO| C[Realtime]
+    B --> D[(MySQL)]
+    B --> E[Firebase Cloud Messaging]
+    B --> F[Google Cloud Storage]
+    A --> G[Google Maps]
+    A --> H[Mercado Pago]
+    B --> H
 ```
 
-El proyecto sigue un enfoque modular para facilitar mantenimiento y escalabilidad.
+## 3. Estructura del repositorio
 
----
+```text
+AppDelivery/
+|- BackendDeliveryMySQL-main/
+|  `- README.md
+|- flutter_delivery_mysql-master/
+|  `- README.md
+`- README.md
+```
 
-## 🧰 Tecnologías
+## 4. Requisitos globales
 
-* Flutter 3.38.9
-* Dart 3.10.8
-* Firebase Cloud Messaging
-* Google Maps SDK
-* flutter_polyline_points
-* flutter_credit_card
-* flutter_local_notifications
-* Android SDK
-* Java 17
+- Node.js 18+
+- npm
+- MySQL 8+
+- Flutter 3.x
+- Java 17
+- Android SDK
+- Credenciales de Firebase, Mercado Pago, Google Maps y GCP
 
----
+## 5. Quick start (equipo)
 
-## ⚙️ Requisitos
-
-* Flutter 3.x
-* Java 17
-* Android SDK actualizado
-* Cuenta Firebase configurada
-* API Key de Google Maps
-
----
-
-## 🚀 Instalación
+1. Clonar repositorio:
 
 ```bash
 git clone https://github.com/JeanVillamar/AppDelivery.git
 cd AppDelivery
+```
+
+2. Configurar y levantar backend:
+
+```bash
+cd BackendDeliveryMySQL-main
+npm install
+node server.js
+```
+
+3. Configurar y levantar frontend:
+
+```bash
+cd ../flutter_delivery_mysql-master
 flutter pub get
 flutter run
 ```
 
-Si ocurre algún error de compilación:
+## 6. Flujo funcional base
 
-```bash
-flutter clean
-flutter run
+```text
+PAGADO -> DESPACHADO -> EN CAMINO -> ENTREGADO
 ```
 
----
+## 7. Convenciones de equipo
 
-## 🔑 Configuración Necesaria
+- Mantener contratos API y eventos socket sincronizados entre backend y frontend.
+- No subir secretos ni credenciales reales al repositorio.
+- Documentar cualquier cambio tecnico en el README del modulo afectado.
 
-Antes de ejecutar la aplicación, es necesario:
+## 8. Documentacion por modulo
 
-### Firebase
+- Backend API, base de datos, sockets, troubleshooting:
+  - [BackendDeliveryMySQL-main/README.md](BackendDeliveryMySQL-main/README.md)
+- Frontend Flutter, estructura, rutas y configuracion:
+  - [flutter_delivery_mysql-master/README.md](flutter_delivery_mysql-master/README.md)
 
-Agregar el archivo:
+## 9. Licencia
 
-```
-android/app/google-services.json
-```
-
-### Google Maps
-
-Editar:
-
-```
-lib/src/environment/environment.dart
-```
-
-Ejemplo:
-
-```dart
-class Environment {
-  static const String API_KEY_MAPS = "YOUR_GOOGLE_MAPS_API_KEY";
-}
-```
-
----
-
-## 📄 Licencia
-
-Proyecto de uso académico / demostrativo.
+Proyecto con fines academicos y demostrativos.

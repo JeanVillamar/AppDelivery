@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_form.dart';
-import 'package:flutter_credit_card/credit_card_model.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:flutter_credit_card/glassmorphism_config.dart';
 // import 'package:flutter_credit_card/flutter_credit_card.dart';
@@ -12,6 +11,8 @@ class ClientPaymentsCreatePage extends StatelessWidget {
 
 
   ClientPaymentsCreateController con = Get.put(ClientPaymentsCreateController());
+
+  ClientPaymentsCreatePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +149,7 @@ class ClientPaymentsCreatePage extends StatelessWidget {
         items: _dropDownItems(documents),
         value: con.idDocument.value == '' ? null : con.idDocument.value,
         onChanged: (option) {
-          print('Opcion seleccionada ${option}');
+          print('Opcion seleccionada $option');
           con.idDocument.value = option.toString();
         },
       ),
@@ -157,12 +158,12 @@ class ClientPaymentsCreatePage extends StatelessWidget {
 
   List<DropdownMenuItem<String>> _dropDownItems(List<MercadoPagoDocumentType> documents) {
     List<DropdownMenuItem<String>> list = [];
-    documents.forEach((document) {
+    for (var document in documents) {
       list.add(DropdownMenuItem(
-        child: Text(document.name ?? ''),
         value: document.id,
+        child: Text(document.name ?? ''),
       ));
-    });
+    }
 
     return list;
   }

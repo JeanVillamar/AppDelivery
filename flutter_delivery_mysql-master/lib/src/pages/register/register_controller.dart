@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -26,20 +25,20 @@ class RegisterController extends GetxController {
 
   void register(BuildContext context) async {
     String email = emailController.text.trim();
-    String name = nameController.text;
-    String lastname = lastnameController.text;
-    String phone = phoneController.text;
+    String name = nameController.text.trim();
+    String lastname = lastnameController.text.trim();
+    String phone = phoneController.text.trim();
     String password = passwordController.text.trim();
     String confirmPassword = confirmPasswordController.text.trim();
 
-    print('Email ${email}');
-    print('Password ${password}');
+    if (!isValidForm(email, name, lastname, phone, password, confirmPassword)) {
+      return;
+    }
 
-    if (isValidForm(email, name, lastname, phone, password, confirmPassword)) {
+    ProgressDialog progressDialog = ProgressDialog(context: context);
+    progressDialog.show(max: 100, msg: 'Registrando datos...');
 
-      ProgressDialog progressDialog = ProgressDialog(context: context);
-      progressDialog.show(max: 100, msg: 'Registrando datos...');
-
+    try {
       User user = User(
         email: email,
         name: name,
@@ -49,22 +48,31 @@ class RegisterController extends GetxController {
       );
 
       Stream stream = await usersProvider.createWithImage(user, imageFile!);
-      stream.listen((res) {
 
+      stream.listen((res) {
         progressDialog.close();
+
         ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
+        print('RESPONSE: $responseApi');
 
         if (responseApi.success == true) {
-          GetStorage().write('user', responseApi.data); // DATOS DEL USUARIO EN SESION
+          GetStorage().write('user', responseApi.data);
           goToHomePage();
-        }
-        else {
+        } else {
           Get.snackbar('Registro fallido', responseApi.message ?? '');
         }
-
+      }, onError: (error) {
+        progressDialog.close();
+        print('ERROR: $error');
+        Get.snackbar('Error', 'No se pudo registrar el usuario');
       });
+    } catch (e) {
+      progressDialog.close();
+      print('EXCEPTION: $e');
+      Get.snackbar('Error', 'Ocurrió un error: $e');
     }
   }
+
 
   void goToHomePage() {
     Get.offNamedUntil('/client/home', (route) => false);

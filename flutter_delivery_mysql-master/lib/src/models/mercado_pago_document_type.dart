@@ -20,10 +20,10 @@ class MercadoPagoDocumentType {
   static List<MercadoPagoDocumentType> fromJsonList(List<dynamic> jsonList) {
     List<MercadoPagoDocumentType> toList = [];
 
-    jsonList.forEach((item) {
+    for (var item in jsonList) {
       MercadoPagoDocumentType document = MercadoPagoDocumentType.fromJsonMap(item);
       toList.add(document);
-    });
+    }
 
     return toList;
   }

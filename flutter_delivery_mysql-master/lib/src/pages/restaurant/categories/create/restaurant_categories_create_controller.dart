@@ -14,8 +14,8 @@ class RestaurantCategoriesCreateController extends GetxController {
 
     String name = nameController.text;
     String description = descriptionController.text;
-    print('NAME: ${name}');
-    print('DESCRIPTION: ${description}');
+    print('NAME: $name');
+    print('DESCRIPTION: $description');
 
     if (name.isNotEmpty && description.isNotEmpty) {
       Category category = Category(

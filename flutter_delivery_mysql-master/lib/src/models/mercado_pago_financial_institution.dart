@@ -8,10 +8,10 @@ class MercadoPagoFinancialInstitution {
   static List<MercadoPagoFinancialInstitution> fromJsonList(List<dynamic> jsonList) {
     List<MercadoPagoFinancialInstitution> toList = [];
 
-    jsonList.forEach((item) {
+    for (var item in jsonList) {
       MercadoPagoFinancialInstitution model = MercadoPagoFinancialInstitution.fromJson(item);
       toList.add(model);
-    });
+    }
 
     return toList;
   }

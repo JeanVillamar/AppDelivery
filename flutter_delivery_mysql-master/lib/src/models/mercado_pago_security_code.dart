@@ -13,10 +13,10 @@ class MercadoPagoSecurityCode {
   static List<MercadoPagoSecurityCode> fromJsonList(List<dynamic> jsonList) {
     List<MercadoPagoSecurityCode> toList = [];
 
-    jsonList.forEach((item) {
+    for (var item in jsonList) {
       MercadoPagoSecurityCode model = MercadoPagoSecurityCode.fromJson(item);
       toList.add(model);
-    });
+    }
 
     return toList;
   }

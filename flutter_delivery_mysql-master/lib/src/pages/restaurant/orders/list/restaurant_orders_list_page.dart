@@ -9,6 +9,8 @@ class RestaurantOrdersListPage extends StatelessWidget {
 
   RestaurantOrdersListController con = Get.put(RestaurantOrdersListController());
 
+  RestaurantOrdersListPage({super.key});
+
   @override
   Widget build(BuildContext context) {
 
@@ -37,7 +39,7 @@ class RestaurantOrdersListPage extends StatelessWidget {
                   future: con.getOrders(status),
                   builder: (context, AsyncSnapshot<List<Order>> snapshot) {
                     if (snapshot.hasData) {
-                      if (snapshot.data!.length > 0) {
+                      if (snapshot.data!.isNotEmpty) {
                         return ListView.builder(
                             itemCount: snapshot.data?.length ?? 0,
                             itemBuilder: (_, index) {

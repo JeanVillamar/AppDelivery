@@ -6,13 +6,17 @@ class LoginPage extends StatelessWidget {
 
   LoginController con = Get.put(LoginController());
 
+  LoginPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Container(
-        height: 50,
-        child: _textDontHaveAccount(),
-      ),
+        bottomNavigationBar: SafeArea(
+          child: Container(
+            margin: EdgeInsets.only(bottom: 10, top: 10),
+            child: _textDontHaveAccount(),
+          ),
+        ),
       body: Stack( // POSICIONAR ELEMENTOS UNO ENCIMA DEL OTRO
         children: [
           _backgroundCover(context),
@@ -135,31 +139,29 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget _textDontHaveAccount() {
-    return SafeArea(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            '¿No tienes cuenta?',
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          '¿No tienes cuenta?',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 17,
+          ),
+        ),
+        SizedBox(width: 7),
+        GestureDetector(
+          onTap: () => con.goToRegisterPage(),
+          child: Text(
+            'Regístrate Aquí',
             style: TextStyle(
-              color: Colors.black,
+              color: Colors.amber,
+              fontWeight: FontWeight.bold,
               fontSize: 17,
             ),
           ),
-          SizedBox(width: 7),
-          GestureDetector(
-            onTap: () => con.goToRegisterPage(),
-            child: Text(
-              'Regístrate Aquí',
-              style: TextStyle(
-                color: Colors.amber,
-                fontWeight: FontWeight.bold,
-                fontSize: 17,
-              ),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

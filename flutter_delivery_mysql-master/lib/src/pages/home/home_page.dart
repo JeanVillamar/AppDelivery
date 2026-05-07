@@ -6,6 +6,8 @@ class HomePage extends StatelessWidget {
 
   HomeController con = Get.put(HomeController());
 
+  HomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

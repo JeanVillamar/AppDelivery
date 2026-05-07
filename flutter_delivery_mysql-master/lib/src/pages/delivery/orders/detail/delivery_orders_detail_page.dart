@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:udemy_flutter_delivery/src/models/product.dart';
-import 'package:udemy_flutter_delivery/src/models/user.dart';
 import 'package:udemy_flutter_delivery/src/pages/delivery/orders/detail/delivery_orders_detail_controller.dart';
 import 'package:udemy_flutter_delivery/src/utils/relative_time_util.dart';
 import 'package:udemy_flutter_delivery/src/widgets/no_data_widget.dart';
@@ -9,6 +8,8 @@ import 'package:udemy_flutter_delivery/src/widgets/no_data_widget.dart';
 class DeliveryOrdersDetailPage extends StatelessWidget {
 
   DeliveryOrdersDetailController con = Get.put(DeliveryOrdersDetailController());
+
+  DeliveryOrdersDetailPage({super.key});
 
 
   @override
@@ -75,7 +76,7 @@ class DeliveryOrdersDetailPage extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 20),
       child: ListTile(
         title: Text('Fecha del pedido'),
-        subtitle: Text('${RelativeTimeUtil.getRelativeTime(con.order.timestamp ?? 0)}'),
+        subtitle: Text(RelativeTimeUtil.getRelativeTime(con.order.timestamp ?? 0)),
         trailing: Icon(Icons.timer),
       ),
     );
@@ -113,7 +114,7 @@ class DeliveryOrdersDetailPage extends StatelessWidget {
   }
 
   Widget _imageProduct(Product product) {
-    return Container(
+    return SizedBox(
       height: 50,
       width: 50,
       // padding: EdgeInsets.all(2),

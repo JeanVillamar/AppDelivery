@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class CustomAnimatedBottomBar extends StatelessWidget {
 
-  CustomAnimatedBottomBar({
-    Key? key,
+  const CustomAnimatedBottomBar({
+    super.key,
     this.selectedIndex = 0,
     this.showElevation = true,
     this.iconSize = 24,
@@ -16,8 +15,7 @@ class CustomAnimatedBottomBar extends StatelessWidget {
     required this.items,
     required this.onItemSelected,
     this.curve = Curves.linear,
-  }) : assert(items.length >= 2 && items.length <= 5),
-        super(key: key);
+  }) : assert(items.length >= 2 && items.length <= 5);
 
   final int selectedIndex;
   final double iconSize;
@@ -87,7 +85,6 @@ class _ItemWidget extends StatelessWidget {
   final Curve curve;
 
   const _ItemWidget({
-    Key? key,
     required this.item,
     required this.isSelected,
     required this.backgroundColor,
@@ -95,7 +92,7 @@ class _ItemWidget extends StatelessWidget {
     required this.itemCornerRadius,
     required this.iconSize,
     this.curve = Curves.linear,
-  })  : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -128,9 +125,7 @@ class _ItemWidget extends StatelessWidget {
                     size: iconSize,
                     color: isSelected
                         ? item.activeColor.withOpacity(1)
-                        : item.inactiveColor == null
-                        ? item.activeColor
-                        : item.inactiveColor,
+                        : item.inactiveColor ?? item.activeColor,
                   ),
                   child: item.icon,
                 ),

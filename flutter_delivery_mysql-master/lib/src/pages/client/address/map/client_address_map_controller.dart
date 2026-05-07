@@ -78,7 +78,7 @@ class ClientAddressMapController extends GetxController {
       position = await Geolocator.getLastKnownPosition(); // LAT Y LNG (ACTUAL)
       animateCameraPosition(position?.latitude ?? 1.2004567, position?.longitude ?? -77.2787444);
     } catch(e) {
-      print('Error: ${e}');
+      print('Error: $e');
     }
   }
 

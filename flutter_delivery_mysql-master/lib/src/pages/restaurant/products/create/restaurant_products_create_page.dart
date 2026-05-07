@@ -3,12 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:udemy_flutter_delivery/src/models/category.dart';
-import 'package:udemy_flutter_delivery/src/pages/restaurant/categories/create/restaurant_categories_create_controller.dart';
 import 'package:udemy_flutter_delivery/src/pages/restaurant/products/create/restaurant_products_create_controller.dart';
 
 class RestaurantProductsCreatePage extends StatelessWidget {
 
   RestaurantProductsCreateController con = Get.put(RestaurantProductsCreateController());
+
+  RestaurantProductsCreatePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +102,7 @@ class RestaurantProductsCreatePage extends StatelessWidget {
         items: _dropDownItems(categories),
         value: con.idCategory.value == '' ? null : con.idCategory.value,
         onChanged: (option) {
-          print('Opcion seleccionada ${option}');
+          print('Opcion seleccionada $option');
           con.idCategory.value = option.toString();
         },
       ),
@@ -110,12 +111,12 @@ class RestaurantProductsCreatePage extends StatelessWidget {
 
   List<DropdownMenuItem<String>> _dropDownItems(List<Category> categories) {
     List<DropdownMenuItem<String>> list = [];
-    categories.forEach((category) {
+    for (var category in categories) {
       list.add(DropdownMenuItem(
-          child: Text(category.name ?? ''),
           value: category.id,
+          child: Text(category.name ?? ''),
       ));
-    });
+    }
 
     return list;
   }

@@ -4,7 +4,7 @@ class NoDataWidget extends StatelessWidget {
 
   String text = '';
 
-  NoDataWidget({this.text = ''});
+  NoDataWidget({super.key, this.text = ''});
 
   @override
   Widget build(BuildContext context) {

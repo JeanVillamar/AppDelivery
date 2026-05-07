@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:udemy_flutter_delivery/src/pages/client/address/map/client_address_map_controller.dart';
 import 'package:udemy_flutter_delivery/src/pages/delivery/orders/map/delivery_orders_map_controller.dart';
 
 class DeliveryOrdersMapPage extends StatelessWidget {
 
   DeliveryOrdersMapController con = Get.put(DeliveryOrdersMapController());
+
+  DeliveryOrdersMapPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class DeliveryOrdersMapPage extends StatelessWidget {
       backgroundColor: Colors.grey[900],
       body: Stack(
         children: [
-          Container(
+          SizedBox(
               height: MediaQuery.of(context).size.height * 0.6,
               child: _googleMaps()
           ),
@@ -127,7 +128,7 @@ class DeliveryOrdersMapPage extends StatelessWidget {
   }
 
   Widget _imageClient() {
-    return Container(
+    return SizedBox(
       height: 50,
       width: 50,
       // padding: EdgeInsets.all(2),
@@ -196,17 +197,17 @@ class DeliveryOrdersMapPage extends StatelessWidget {
       margin: EdgeInsets.only(left: 30, right: 30),
       child: ElevatedButton(
         onPressed: con.isClose == true ? () => con.updateToDelivered() : null,
-        child: Text(
-          'ENTREGAR PEDIDO',
-          style: TextStyle(
-            color: Colors.black
-          ),
-        ),
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15)
           ),
           padding: EdgeInsets.all(15)
+        ),
+        child: Text(
+          'ENTREGAR PEDIDO',
+          style: TextStyle(
+            color: Colors.black
+          ),
         ),
 
       ),

@@ -9,10 +9,10 @@ class MercadoPagoTax {
   static List<MercadoPagoTax> fromJsonList(List<dynamic> jsonList) {
     List<MercadoPagoTax> toList = [];
 
-    jsonList.forEach((item) {
+    for (var item in jsonList) {
       MercadoPagoTax model = MercadoPagoTax.fromJson(item);
       toList.add(model);
-    });
+    }
 
     return toList;
   }

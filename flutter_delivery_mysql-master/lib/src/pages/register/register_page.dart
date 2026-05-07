@@ -7,6 +7,8 @@ class RegisterPage extends StatelessWidget {
 
   RegisterController con = Get.put(RegisterController());
 
+  RegisterPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

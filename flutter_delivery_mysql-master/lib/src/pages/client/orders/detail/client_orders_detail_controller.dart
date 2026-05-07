@@ -1,7 +1,5 @@
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:udemy_flutter_delivery/src/models/order.dart';
-import 'package:udemy_flutter_delivery/src/models/response_api.dart';
 import 'package:udemy_flutter_delivery/src/models/user.dart';
 import 'package:udemy_flutter_delivery/src/providers/orders_provider.dart';
 import 'package:udemy_flutter_delivery/src/providers/users_provider.dart';
@@ -30,9 +28,9 @@ class ClientOrdersDetailController extends GetxController {
 
   void getTotal() {
     total.value = 0.0;
-    order.products!.forEach((product) {
+    for (var product in order.products!) {
       total.value = total.value + (product.quantity! * product.price!);
-    });
+    }
   }
 
 }

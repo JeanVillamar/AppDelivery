@@ -3,16 +3,13 @@ import 'package:get/get.dart';
 import 'package:udemy_flutter_delivery/src/models/category.dart';
 import 'package:udemy_flutter_delivery/src/models/product.dart';
 import 'package:udemy_flutter_delivery/src/pages/client/products/list/client_products_list_controller.dart';
-import 'package:udemy_flutter_delivery/src/pages/client/profile/info/client_profile_info_page.dart';
-import 'package:udemy_flutter_delivery/src/pages/delivery/orders/list/delivery_orders_list_page.dart';
-import 'package:udemy_flutter_delivery/src/pages/register/register_page.dart';
-import 'package:udemy_flutter_delivery/src/pages/restaurant/orders/list/restaurant_orders_list_page.dart';
-import 'package:udemy_flutter_delivery/src/utils/custom_animated_bottom_bar.dart';
 import 'package:udemy_flutter_delivery/src/widgets/no_data_widget.dart';
 
 class ClientProductsListPage extends StatelessWidget {
 
   ClientProductsListController con = Get.put(ClientProductsListController());
+
+  ClientProductsListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +51,7 @@ class ClientProductsListPage extends StatelessWidget {
                 future: con.getProducts(category.id ?? '1', con.productName.value),
                 builder: (context, AsyncSnapshot<List<Product>> snapshot) {
                   if (snapshot.hasData) {
-                    if (snapshot.data!.length > 0) {
+                    if (snapshot.data!.isNotEmpty) {
                       return ListView.builder(
                           itemCount: snapshot.data?.length ?? 0,
                           itemBuilder: (_, index) {
@@ -99,15 +96,15 @@ class ClientProductsListPage extends StatelessWidget {
                   width: 16,
                   height: 16,
                   alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(30))
+                  ),
                   child: Text(
                     '${con.items.value}',
                     style: TextStyle(
                       fontSize: 12
                     ),
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(30))
                   ),
                 )
             )
@@ -126,7 +123,7 @@ class ClientProductsListPage extends StatelessWidget {
 
   Widget _textFieldSearch(BuildContext context) {
     return SafeArea(
-      child: Container(
+      child: SizedBox(
         width: MediaQuery.of(context).size.width  * 0.75,
         child: TextField(
           onChanged: con.onChangeText,
@@ -189,7 +186,7 @@ class ClientProductsListPage extends StatelessWidget {
                   SizedBox(height: 20),
                 ],
               ),
-              trailing: Container(
+              trailing: SizedBox(
                 height: 70,
                 width: 60,
                 // padding: EdgeInsets.all(2),

@@ -62,10 +62,10 @@ class MercadoPagoCreditCard {
   static List<MercadoPagoCreditCard> fromJsonList(List<dynamic> jsonList) {
     List<MercadoPagoCreditCard> toList = [];
 
-    jsonList.forEach((item) {
+    for (var item in jsonList) {
       MercadoPagoCreditCard model = MercadoPagoCreditCard.fromJson(item);
       toList.add(model);
-    });
+    }
 
     return toList;
   }

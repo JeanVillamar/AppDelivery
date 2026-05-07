@@ -1,14 +1,13 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:udemy_flutter_delivery/src/environment/environment.dart';
-import 'package:udemy_flutter_delivery/src/models/category.dart';
 import 'package:udemy_flutter_delivery/src/models/order.dart';
 import 'package:udemy_flutter_delivery/src/models/response_api.dart';
 import 'package:udemy_flutter_delivery/src/models/user.dart';
 
 class OrdersProvider extends GetConnect {
 
-  String url = Environment.API_URL + 'api/orders';
+  String url = '${Environment.API_URL}api/orders';
 
   User userSession = User.fromJson(GetStorage().read('user') ?? {});
 

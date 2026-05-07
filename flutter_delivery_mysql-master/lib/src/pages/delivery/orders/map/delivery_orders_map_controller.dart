@@ -66,7 +66,7 @@ class DeliveryOrdersMapController extends GetxController {
           order.address!.lng!
       );
 
-      print('distanceBetween ${distanceBetween}');
+      print('distanceBetween $distanceBetween');
 
       if (distanceBetween <= 200 && isClose == false) {
         isClose = true;
@@ -276,7 +276,7 @@ Future<void> setPolylines(LatLng from, LatLng to) async {
       });
 
     } catch(e) {
-      print('Error: ${e}');
+      print('Error: $e');
     }
   }
 

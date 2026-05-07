@@ -2,13 +2,12 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:udemy_flutter_delivery/src/environment/environment.dart';
 import 'package:udemy_flutter_delivery/src/models/address.dart';
-import 'package:udemy_flutter_delivery/src/models/category.dart';
 import 'package:udemy_flutter_delivery/src/models/response_api.dart';
 import 'package:udemy_flutter_delivery/src/models/user.dart';
 
 class AddressProvider extends GetConnect {
 
-  String url = Environment.API_URL + 'api/address';
+  String url = '${Environment.API_URL}api/address';
 
   User userSession = User.fromJson(GetStorage().read('user') ?? {});
 

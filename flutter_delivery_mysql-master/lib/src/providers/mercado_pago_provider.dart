@@ -6,7 +6,6 @@ import 'package:udemy_flutter_delivery/src/models/mercado_pago_card_token.dart';
 import 'package:udemy_flutter_delivery/src/models/mercado_pago_document_type.dart';
 import 'package:udemy_flutter_delivery/src/models/mercado_pago_payment_method_installments.dart';
 import 'package:udemy_flutter_delivery/src/models/order.dart';
-import 'package:udemy_flutter_delivery/src/models/response_api.dart';
 import 'package:udemy_flutter_delivery/src/models/user.dart';
 
 class MercadoPagoProvider extends GetConnect {
@@ -42,11 +41,11 @@ class MercadoPagoProvider extends GetConnect {
         },
         query: {
           'bin': bin,
-          'amount': '${amount}'
+          'amount': '$amount'
         }
     ); // ESPERAR HASTA QUE EL SERVIDOR NOS RETORNE LA RESPUESTA
 
-    print('RESPONSE: ${response}');
+    print('RESPONSE: $response');
     print('RESPONSE Status code: ${response.statusCode}');
     print('RESPONSE BODY: ${response.body}');
 
@@ -142,7 +141,7 @@ class MercadoPagoProvider extends GetConnect {
       return MercadoPagoCardToken();
     }
 
-    print('RESPONSE: ${response}');
+    print('RESPONSE: $response');
     print('RESPONSE Status code: ${response.statusCode}');
     print('RESPONSE BODY: ${response.body}');
 

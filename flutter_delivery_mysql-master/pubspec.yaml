@@ -38,7 +38,7 @@ dependencies:
   get_storage: ^2.0.3
   image_picker: ^1.2.1
   http: ^1.6.0
-  sn_progress_dialog: ^1.0.3
+  sn_progress_dialog: ^1.2.0
   modal_bottom_sheet: ^3.0.0
   flutter_image_slideshow: ^0.1.2
   fluttertoast: ^9.0.0
@@ -57,6 +57,7 @@ dependencies:
   firebase_core: ^4.4.0
 
 
+  path: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

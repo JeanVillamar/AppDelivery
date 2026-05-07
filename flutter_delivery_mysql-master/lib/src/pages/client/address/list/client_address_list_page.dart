@@ -8,6 +8,8 @@ class ClientAddressListPage extends StatelessWidget {
 
   ClientAddressListController con = Get.put(ClientAddressListController());
 
+  ClientAddressListPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(

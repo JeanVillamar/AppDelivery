@@ -6,6 +6,8 @@ class ClientAddressCreatePage extends StatelessWidget {
 
   ClientAddressCreateController con = Get.put(ClientAddressCreateController());
 
+  ClientAddressCreatePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

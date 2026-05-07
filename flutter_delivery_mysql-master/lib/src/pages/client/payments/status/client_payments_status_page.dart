@@ -6,6 +6,8 @@ class ClientPaymentsStatusPage extends StatelessWidget {
 
   ClientPaymentsStatusController con = Get.put(ClientPaymentsStatusController());
 
+  ClientPaymentsStatusPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

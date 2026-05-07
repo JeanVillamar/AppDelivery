@@ -30,7 +30,8 @@ module.exports = {
         User.findByEmail(email, async (err, myUser) => {
             
             console.log('Error ', err);
-
+            console.log('MyUser ', myUser);
+            
             if (err) {
                 return res.status(501).json({
                     success: false,
@@ -58,8 +59,8 @@ module.exports = {
                     email: myUser.email,
                     phone: myUser.phone,
                     image: myUser.image,
-                    session_token: `JWT ${token}`,
-                    roles: JSON.parse(myUser.roles)
+                    session_token: `JWT ${token}`
+                    // ,roles: JSON.parse(myUser.roles)
                 }
 
                 return res.status(201).json({

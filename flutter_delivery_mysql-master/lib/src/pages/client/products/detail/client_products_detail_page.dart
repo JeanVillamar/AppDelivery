@@ -11,7 +11,7 @@ class ClientProductsDetailPage extends StatelessWidget {
   var counter = 0.obs;
   var price = 0.0.obs;
 
-  ClientProductsDetailPage({@required this.product}) {
+  ClientProductsDetailPage({super.key, @required this.product}) {
     con = Get.put(ClientProductsDetailController());
   }
 
@@ -74,13 +74,6 @@ class ClientProductsDetailPage extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () => con.removeItem(product!, price, counter),
-                child: Text(
-                  '-',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 22
-                  ),
-                ),
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                     minimumSize: Size(45, 37),
@@ -91,9 +84,20 @@ class ClientProductsDetailPage extends StatelessWidget {
                         )
                     )
                 ),
+                child: Text(
+                  '-',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 22
+                  ),
+                ),
               ),
               ElevatedButton(
                 onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  minimumSize: Size(40, 37),
+                ),
                 child: Text(
                   '${counter.value}',
                   style: TextStyle(
@@ -101,20 +105,9 @@ class ClientProductsDetailPage extends StatelessWidget {
                       fontSize: 18
                   ),
                 ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  minimumSize: Size(40, 37),
-                ),
               ),
               ElevatedButton(
                 onPressed: () => con.addItem(product!, price, counter),
-                child: Text(
-                  '+',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 22
-                  ),
-                ),
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                     minimumSize: Size(45, 37),
@@ -125,10 +118,23 @@ class ClientProductsDetailPage extends StatelessWidget {
                         )
                     )
                 ),
+                child: Text(
+                  '+',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 22
+                  ),
+                ),
               ),
               Spacer(),
               ElevatedButton(
                 onPressed: () => con.addToBag(product!, price, counter),
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.amber,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25),
+                    ),
+                ),
                 child: Text(
                   'Agregar   \$${price.value}',
                   style: TextStyle(
@@ -136,12 +142,6 @@ class ClientProductsDetailPage extends StatelessWidget {
                       fontSize: 15,
                       fontWeight: FontWeight.bold
                   ),
-                ),
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.amber,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
-                    ),
                 ),
               ),
             ],

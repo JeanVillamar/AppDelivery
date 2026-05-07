@@ -7,6 +7,8 @@ class ClientPaymentsInstallmentsPage extends StatelessWidget {
 
   ClientPaymentsInstallmentsController con = Get.put(ClientPaymentsInstallmentsController());
 
+  ClientPaymentsInstallmentsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
@@ -72,7 +74,7 @@ class ClientPaymentsInstallmentsPage extends StatelessWidget {
         items: _dropDownItems(installments),
         value: con.installments.value == '' ? null : con.installments.value,
         onChanged: (option) {
-          print('Opcion seleccionada ${option}');
+          print('Opcion seleccionada $option');
           con.installments.value = option.toString();
         },
       ),
@@ -81,12 +83,12 @@ class ClientPaymentsInstallmentsPage extends StatelessWidget {
 
   List<DropdownMenuItem<String>> _dropDownItems(List<MercadoPagoInstallment> installments) {
     List<DropdownMenuItem<String>> list = [];
-    installments.forEach((installment) {
+    for (var installment in installments) {
       list.add(DropdownMenuItem(
-        child: Text('${installment.installments}'),
         value: '${installment.installments}',
+        child: Text('${installment.installments}'),
       ));
-    });
+    }
 
     return list;
   }
