@@ -53,7 +53,8 @@ class RegisterController extends GetxController {
         progressDialog.close();
 
         ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
-        print('RESPONSE: $responseApi');
+        print('RESPONSE: $responseApi.toJson()');
+        print(responseApi.toJson());
 
         if (responseApi.success == true) {
           GetStorage().write('user', responseApi.data);

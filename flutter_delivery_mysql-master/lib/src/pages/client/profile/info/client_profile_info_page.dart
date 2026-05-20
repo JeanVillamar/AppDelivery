@@ -1,162 +1,171 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:udemy_flutter_delivery/src/models/user.dart';
 import 'package:udemy_flutter_delivery/src/pages/client/profile/info/client_profile_info_controller.dart';
+import 'package:udemy_flutter_delivery/src/theme/app_theme.dart';
 
 class ClientProfileInfoPage extends StatelessWidget {
-
-  ClientProfileInfoController con = Get.put(ClientProfileInfoController());
+  final ClientProfileInfoController con =
+      Get.put(ClientProfileInfoController());
 
   ClientProfileInfoPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Obx(() => Stack( // POSICIONAR ELEMENTOS UNO ENCIMA DEL OTRO
-        children: [
-          _backgroundCover(context),
-          _boxForm(context),
-          _imageUser(context),
-          Column(
-            children: [
-              _buttonSignOut(),
-              _buttonRoles()
-            ],
-          ),
-        ],
-      )),
+      body: Obx(
+        () {
+          final user = con.user.value;
+
+          return LayoutBuilder(
+            builder: (context, constraints) {
+              final isWide = constraints.maxWidth >= 720;
+
+              return SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                  child: Column(
+                    children: [
+                      _header(context, isWide, user),
+                      Transform.translate(
+                        offset: const Offset(0, -46),
+                        child: _profileCard(context, isWide, user),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 
-  Widget _backgroundCover(BuildContext context) {
+  Widget _header(BuildContext context, bool isWide, User user) {
     return Container(
       width: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.35,
-      color: Colors.amber,
-    );
-  }
-
-  Widget _boxForm(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.4,
-      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3, left: 50, right: 50),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: Colors.black54,
-                blurRadius: 15,
-                offset: Offset(0, 0.75)
-            )
-          ]
+      padding: EdgeInsets.fromLTRB(22, isWide ? 42 : 30, 22, 78),
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [AppColors.ink, Color(0xFF263648)],
+        ),
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(34)),
       ),
-      child: SingleChildScrollView(
+      child: SafeArea(
+        bottom: false,
         child: Column(
           children: [
-            _textName(),
-            _textEmail(),
-            _textPhone(),
-            _buttonUpdate(context)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                _headerAction(
+                  icon: Icons.supervised_user_circle_outlined,
+                  onPressed: () => con.goToRoles(),
+                ),
+                const SizedBox(width: 8),
+                _headerAction(
+                  icon: Icons.power_settings_new,
+                  onPressed: () => con.signOut(),
+                ),
+              ],
+            ),
+            const SizedBox(height: 6),
+            CircleAvatar(
+              backgroundImage: user.image != null
+                  ? NetworkImage(user.image!)
+                  : const AssetImage('assets/img/user_profile.png')
+                      as ImageProvider,
+              radius: 58,
+              backgroundColor: Colors.white,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              '${user.name ?? ''} ${user.lastname ?? ''}',
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              user.email ?? '',
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.white70),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buttonSignOut() {
-    return SafeArea(
-        child: Container(
-          margin: EdgeInsets.only(right: 20),
-          alignment: Alignment.topRight,
-          child: IconButton(
-            onPressed: () => con.signOut(),
-            icon: Icon(
-              Icons.power_settings_new,
-              color: Colors.white,
-              size: 30,
-            ),
-          ),
-        )
+  Widget _headerAction({
+    required IconData icon,
+    required VoidCallback onPressed,
+  }) {
+    return IconButton(
+      onPressed: onPressed,
+      style: IconButton.styleFrom(
+        backgroundColor: Colors.white.withValues(alpha: 0.14),
+        foregroundColor: Colors.white,
+      ),
+      icon: Icon(icon),
     );
   }
 
-  Widget _buttonRoles() {
-    return Container(
-      margin: EdgeInsets.only(right: 20),
-      alignment: Alignment.topRight,
-      child: IconButton(
-        onPressed: () => con.goToRoles(),
-        icon: Icon(
-          Icons.supervised_user_circle,
-          color: Colors.white,
-          size: 30,
+  Widget _profileCard(BuildContext context, bool isWide, User user) {
+    return Center(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: isWide ? 520 : 390),
+        child: Card(
+          margin: const EdgeInsets.symmetric(horizontal: 18),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(18, 18, 18, 20),
+            child: Column(
+              children: [
+                _infoTile(Icons.person_outline, 'Nombre del usuario',
+                    '${user.name ?? ''} ${user.lastname ?? ''}'),
+                _infoTile(Icons.email_outlined, 'Email', user.email ?? ''),
+                _infoTile(Icons.phone_outlined, 'Teléfono', user.phone ?? ''),
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () => con.goToProfileUpdate(),
+                    child: const Text('Actualizar datos'),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
 
-
-  Widget _buttonUpdate(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-      child: ElevatedButton(
-          onPressed: () => con.goToProfileUpdate(),
-          style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(vertical: 15)
-          ),
-          child: Text(
-            'ACTUALIZAR DATOS',
-            style: TextStyle(
-                color: Colors.black
-            ),
-          )
-      ),
-    );
-  }
-
-  Widget _imageUser(BuildContext context) {
-
-    return SafeArea(
-      child: Container(
-        margin: EdgeInsets.only(top: 25),
-        alignment: Alignment.topCenter,
-        child:  CircleAvatar(
-            backgroundImage:  con.user.value.image != null
-                ? NetworkImage(con.user.value.image!)
-                : AssetImage('assets/img/user_profile.png') as ImageProvider,
-            radius: 60,
-            backgroundColor: Colors.white,
-          ),
+  Widget _infoTile(IconData icon, String label, String value) {
+    return ListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 4),
+      leading: Container(
+        width: 42,
+        height: 42,
+        decoration: BoxDecoration(
+          color: AppColors.primary.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(14),
         ),
-      );
-  }
-
-
-  Widget _textName() {
-    return Container(
-      margin: EdgeInsets.only(top: 10),
-      child: ListTile(
-        leading: Icon(Icons.person),
-        title:  Text('${con.user.value.name ?? ''} ${con.user.value.lastname ?? ''}'),
-        subtitle: Text('Nombre del usuario'),
+        child: Icon(icon, color: AppColors.primary),
       ),
+      title: Text(
+        value,
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: const TextStyle(fontWeight: FontWeight.w800),
+      ),
+      subtitle: Text(label),
     );
   }
-
-  Widget _textEmail() {
-    return ListTile(
-      leading: Icon(Icons.email),
-      title: Text(con.user.value.email ?? ''),
-      subtitle: Text('Email'),
-    );
-  }
-
-  Widget _textPhone() {
-    return ListTile(
-      leading: Icon(Icons.phone),
-      title: Text(con.user.value.phone ?? ''),
-      subtitle: Text('Telefono'),
-    );
-  }
-
 }

@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:udemy_flutter_delivery/src/theme/app_theme.dart';
 
 class CustomAnimatedBottomBar extends StatelessWidget {
-
   const CustomAnimatedBottomBar({
     super.key,
     this.selectedIndex = 0,
     this.showElevation = true,
     this.iconSize = 24,
     this.backgroundColor,
-    this.itemCornerRadius = 50,
-    this.containerHeight = 56,
-    this.animationDuration = const Duration(milliseconds: 270),
+    this.itemCornerRadius = 18,
+    this.containerHeight = 64,
+    this.animationDuration = const Duration(milliseconds: 220),
     this.mainAxisAlignment = MainAxisAlignment.spaceBetween,
     required this.items,
     required this.onItemSelected,
-    this.curve = Curves.linear,
+    this.curve = Curves.easeOutCubic,
   }) : assert(items.length >= 2 && items.length <= 5);
 
   final int selectedIndex;
@@ -33,30 +33,30 @@ class CustomAnimatedBottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final bgColor = backgroundColor ?? Theme.of(context).colorScheme.surface;
 
-    return Container(
-      margin: EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: bgColor,
-        borderRadius: BorderRadius.circular(50),
-        boxShadow: [
-          if (showElevation)
-            const BoxShadow(
-              color: Colors.black12,
-              blurRadius: 2,
-            ),
-        ],
-      ),
-      child: SafeArea(
-        child: Container(
-          width: double.infinity,
-          height: containerHeight,
-          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+    return SafeArea(
+      minimum: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+      child: Container(
+        height: containerHeight,
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: AppColors.border),
+          boxShadow: [
+            if (showElevation)
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.08),
+                blurRadius: 24,
+                offset: const Offset(0, 10),
+              ),
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
           child: Row(
             mainAxisAlignment: mainAxisAlignment,
             children: items.map((item) {
-              var index = items.indexOf(item);
-              return GestureDetector(
-                onTap: () => onItemSelected(index),
+              final index = items.indexOf(item);
+              return Expanded(
                 child: _ItemWidget(
                   item: item,
                   iconSize: iconSize,
@@ -65,6 +65,7 @@ class CustomAnimatedBottomBar extends StatelessWidget {
                   itemCornerRadius: itemCornerRadius,
                   animationDuration: animationDuration,
                   curve: curve,
+                  onTap: () => onItemSelected(index),
                 ),
               );
             }).toList(),
@@ -76,14 +77,6 @@ class CustomAnimatedBottomBar extends StatelessWidget {
 }
 
 class _ItemWidget extends StatelessWidget {
-  final double iconSize;
-  final bool isSelected;
-  final BottomNavyBarItem item;
-  final Color backgroundColor;
-  final double itemCornerRadius;
-  final Duration animationDuration;
-  final Curve curve;
-
   const _ItemWidget({
     required this.item,
     required this.isSelected,
@@ -91,59 +84,73 @@ class _ItemWidget extends StatelessWidget {
     required this.animationDuration,
     required this.itemCornerRadius,
     required this.iconSize,
+    required this.onTap,
     this.curve = Curves.linear,
   });
 
+  final double iconSize;
+  final bool isSelected;
+  final BottomNavyBarItem item;
+  final Color backgroundColor;
+  final double itemCornerRadius;
+  final Duration animationDuration;
+  final Curve curve;
+  final VoidCallback onTap;
+
   @override
   Widget build(BuildContext context) {
+    final activeColor = item.activeColor;
+    final inactiveColor = item.inactiveColor ?? AppColors.muted;
+
     return Semantics(
       container: true,
       selected: isSelected,
-      child: AnimatedContainer(
-        width: isSelected ? 130 : 50,
-        height: double.maxFinite,
-        duration: animationDuration,
-        curve: curve,
-        decoration: BoxDecoration(
-          color:
-          isSelected ? item.activeColor.withOpacity(0.2) : backgroundColor,
+      child: Tooltip(
+        message: item.tooltip ?? '',
+        child: InkWell(
           borderRadius: BorderRadius.circular(itemCornerRadius),
-        ),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          physics: NeverScrollableScrollPhysics(),
-          child: Container(
-            width: isSelected ? 130 : 50,
-            padding: EdgeInsets.symmetric(horizontal: 8),
+          onTap: onTap,
+          child: AnimatedContainer(
+            height: double.infinity,
+            duration: animationDuration,
+            curve: curve,
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            decoration: BoxDecoration(
+              color: isSelected
+                  ? activeColor.withValues(alpha: 0.12)
+                  : Colors.transparent,
+              borderRadius: BorderRadius.circular(itemCornerRadius),
+            ),
             child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 IconTheme(
                   data: IconThemeData(
                     size: iconSize,
-                    color: isSelected
-                        ? item.activeColor.withOpacity(1)
-                        : item.inactiveColor ?? item.activeColor,
+                    color: isSelected ? activeColor : inactiveColor,
                   ),
                   child: item.icon,
                 ),
-                if (isSelected)
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 4),
-                      child: DefaultTextStyle.merge(
-                        style: TextStyle(
-                          color: item.activeColor,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        maxLines: 1,
-                        textAlign: item.textAlign,
-                        child: item.title,
-                      ),
-                    ),
-                  ),
+                AnimatedSize(
+                  duration: animationDuration,
+                  curve: curve,
+                  child: isSelected
+                      ? Padding(
+                          padding: const EdgeInsets.only(left: 6),
+                          child: DefaultTextStyle.merge(
+                            style: TextStyle(
+                              color: activeColor,
+                              fontWeight: FontWeight.w800,
+                              fontSize: 12,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: item.textAlign,
+                            child: item.title,
+                          ),
+                        )
+                      : const SizedBox.shrink(),
+                ),
               ],
             ),
           ),
@@ -152,14 +159,15 @@ class _ItemWidget extends StatelessWidget {
     );
   }
 }
-class BottomNavyBarItem {
 
+class BottomNavyBarItem {
   BottomNavyBarItem({
     required this.icon,
     required this.title,
-    this.activeColor = Colors.blue,
+    this.activeColor = AppColors.primary,
     this.textAlign,
     this.inactiveColor,
+    this.tooltip,
   });
 
   final Widget icon;
@@ -167,5 +175,5 @@ class BottomNavyBarItem {
   final Color activeColor;
   final Color? inactiveColor;
   final TextAlign? textAlign;
-
+  final String? tooltip;
 }

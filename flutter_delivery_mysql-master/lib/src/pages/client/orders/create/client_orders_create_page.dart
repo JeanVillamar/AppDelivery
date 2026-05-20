@@ -2,196 +2,191 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:udemy_flutter_delivery/src/models/product.dart';
 import 'package:udemy_flutter_delivery/src/pages/client/orders/create/client_orders_create_controller.dart';
+import 'package:udemy_flutter_delivery/src/theme/app_theme.dart';
 import 'package:udemy_flutter_delivery/src/widgets/no_data_widget.dart';
 
 class ClientOrdersCreatePage extends StatelessWidget {
-
-  ClientOrdersCreateController con = Get.put(ClientOrdersCreateController());
+  final ClientOrdersCreateController con =
+      Get.put(ClientOrdersCreateController());
 
   ClientOrdersCreatePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Obx (() => Scaffold(
-      bottomNavigationBar: Container(
-        color: Color.fromRGBO(245, 245, 245, 1),
-        height: 100,
-        child: _totalToPay(context),
-      ),
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-            color: Colors.black
+    return Obx(
+      () => Scaffold(
+        bottomNavigationBar: _totalToPay(context),
+        appBar: AppBar(
+          title: const Text('Mi orden'),
         ),
-        title: Text(
-          'Mi Orden',
-          style: TextStyle(
-              color: Colors.black
-          ),
-        ),
-      ),
-      body: con.selectedProducts.isNotEmpty
-      ? ListView(
-        children: con.selectedProducts.map((Product product) {
-          return _cardProduct(product);
-        }).toList(),
-      )
-      : Center(
-          child:
-          NoDataWidget(text: 'No hay ningun producto agregado aun')
-      ),
-    ));
-  }
-
-  Widget _totalToPay(BuildContext context) {
-    return Column(
-      children: [
-        Divider(height: 1, color: Colors.grey[300]),
-        Container(
-          margin: EdgeInsets.only(left: 20, top: 25),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                  'TOTAL: \$${con.total.value}',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 17
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 30),
-
-                child: ElevatedButton(
-                    onPressed: () => con.goToAddressList(),
-                    style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.all(15)
-                    ),
-                    child: Text(
-                      'CONFIRMAR ORDER',
-                      style: TextStyle(
-                          color: Colors.black
-                      ),
-                    )
-                ),
+        body: con.selectedProducts.isNotEmpty
+            ? ListView(
+                padding: const EdgeInsets.fromLTRB(0, 8, 0, 118),
+                children: con.selectedProducts.map((Product product) {
+                  return _cardProduct(context, product);
+                }).toList(),
               )
-            ],
-          ),
-        )
-
-      ],
+            : const NoDataWidget(text: 'No hay productos agregados'),
+      ),
     );
   }
 
-  Widget _cardProduct(Product product) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Row(
-        children: [
-          _imageProduct(product),
-          SizedBox(width: 15),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                product.name ?? '',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold
-                ),
+  Widget _totalToPay(BuildContext context) {
+    return SafeArea(
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(18, 14, 18, 14),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          border: const Border(top: BorderSide(color: AppColors.border)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.08),
+              blurRadius: 22,
+              offset: const Offset(0, -8),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Total',
+                    style: TextStyle(color: AppColors.muted, fontSize: 13),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    '\$${con.total.value}',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                ],
               ),
-              SizedBox(height: 7),
-              _buttonsAddOrRemove(product)
-            ],
+            ),
+            ElevatedButton(
+              onPressed: () => con.goToAddressList(),
+              child: const Text('Confirmar'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _cardProduct(BuildContext context, Product product) {
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 760),
+        child: Card(
+          margin: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+          child: Padding(
+            padding: const EdgeInsets.all(14),
+            child: Row(
+              children: [
+                _imageProduct(product),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        product.name ?? '',
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 10),
+                      _buttonsAddOrRemove(product),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    _textPrice(product),
+                    const SizedBox(height: 8),
+                    _iconDelete(product),
+                  ],
+                ),
+              ],
+            ),
           ),
-          Spacer(),
-          Column(
-            children: [
-              _textPrice(product),
-              _iconDelete(product)
-            ],
-          )
-        ],
+        ),
       ),
     );
   }
 
   Widget _iconDelete(Product product) {
     return IconButton(
-        onPressed: () => con.deleteItem(product),
-        icon: Icon(
-          Icons.delete,
-          color: Colors.red,
-        )
+      onPressed: () => con.deleteItem(product),
+      style: IconButton.styleFrom(
+        backgroundColor: AppColors.danger.withValues(alpha: 0.1),
+        foregroundColor: AppColors.danger,
+      ),
+      icon: const Icon(Icons.delete_outline),
     );
   }
 
   Widget _textPrice(Product product) {
-    return Container(
-      margin: EdgeInsets.only(top: 10),
-      child: Text(
-        '\$${ product.price! * product.quantity!}',
-        style: TextStyle(
-          color: Colors.grey,
-          fontWeight: FontWeight.bold
-        ),
+    return Text(
+      '\$${product.price! * product.quantity!}',
+      style: const TextStyle(
+        color: AppColors.ink,
+        fontWeight: FontWeight.w900,
       ),
     );
   }
 
   Widget _buttonsAddOrRemove(Product product) {
-    return Row(
-      children: [
-        GestureDetector(
-          onTap: () => con.removeItem(product),
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-            decoration: BoxDecoration(
-              color: Colors.grey[200],
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(8),
-                bottomLeft: Radius.circular(8),
-              )
-            ),
-
-            child: Text('-'),
+    return Container(
+      height: 42,
+      decoration: BoxDecoration(
+        color: AppColors.background,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          IconButton(
+            onPressed: () => con.removeItem(product),
+            icon: const Icon(Icons.remove),
+            iconSize: 18,
           ),
-        ),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-          color: Colors.grey[200],
-          child: Text('${product.quantity ?? 0}'),
-        ),
-        GestureDetector(
-          onTap: () => con.addItem(product),
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 7),
-            decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(8),
-                  bottomRight: Radius.circular(8),
-                )
+          SizedBox(
+            width: 30,
+            child: Text(
+              '${product.quantity ?? 0}',
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontWeight: FontWeight.w900),
             ),
-            child: Text('+'),
           ),
-        ),
-      ],
+          IconButton(
+            onPressed: () => con.addItem(product),
+            icon: const Icon(Icons.add),
+            iconSize: 18,
+          ),
+        ],
+      ),
     );
   }
 
   Widget _imageProduct(Product product) {
     return SizedBox(
-      height: 70,
-      width: 70,
-      // padding: EdgeInsets.all(2),
+      height: 76,
+      width: 76,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         child: FadeInImage(
           image: product.image1 != null
               ? NetworkImage(product.image1!)
-              : AssetImage('assets/img/no-image.png') as ImageProvider,
+              : const AssetImage('assets/img/no-image.png') as ImageProvider,
           fit: BoxFit.cover,
-          fadeInDuration: Duration(milliseconds: 50),
-          placeholder:  AssetImage('assets/img/no-image.png'),
+          fadeInDuration: const Duration(milliseconds: 120),
+          placeholder: const AssetImage('assets/img/no-image.png'),
         ),
       ),
     );

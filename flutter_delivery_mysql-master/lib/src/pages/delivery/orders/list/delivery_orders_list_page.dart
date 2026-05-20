@@ -2,135 +2,101 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:udemy_flutter_delivery/src/models/order.dart';
 import 'package:udemy_flutter_delivery/src/pages/delivery/orders/list/delivery_orders_list_controller.dart';
+import 'package:udemy_flutter_delivery/src/theme/app_theme.dart';
 import 'package:udemy_flutter_delivery/src/utils/relative_time_util.dart';
+import 'package:udemy_flutter_delivery/src/widgets/app_order_card.dart';
 import 'package:udemy_flutter_delivery/src/widgets/no_data_widget.dart';
 
 class DeliveryOrdersListPage extends StatelessWidget {
-
-  DeliveryOrdersListController con = Get.put(DeliveryOrdersListController());
+  final DeliveryOrdersListController con =
+      Get.put(DeliveryOrdersListController());
 
   DeliveryOrdersListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-
-    return Obx(() => DefaultTabController(
-      length: con.status.length,
-      child: Scaffold(
-          appBar: PreferredSize(
-            preferredSize: Size.fromHeight(50),
-            child: AppBar(
-              bottom: TabBar(
-                isScrollable: true,
-                indicatorColor: Colors.amber,
-                labelColor: Colors.black,
-                unselectedLabelColor: Colors.grey[600],
-                tabs: List<Widget>.generate(con.status.length, (index) {
-                  return Tab(
-                    child: Text(con.status[index]),
-                  );
-                }),
-              ),
-            ),
-          ),
+    return Obx(
+      () => DefaultTabController(
+        length: con.status.length,
+        child: Scaffold(
+          appBar: _header(context),
           body: TabBarView(
             children: con.status.map((String status) {
-              return FutureBuilder(
-                  future: con.getOrders(status),
-                  builder: (context, AsyncSnapshot<List<Order>> snapshot) {
-                    if (snapshot.hasData) {
-                      if (snapshot.data!.isNotEmpty) {
-                        return ListView.builder(
-                            itemCount: snapshot.data?.length ?? 0,
-                            itemBuilder: (_, index) {
-                              return _cardOrder(snapshot.data![index]);
-                            }
-                        );
-                      }
-                      else {
-                        return Center(child: NoDataWidget(text: 'No hay ordenes'));
-                      }
-                    }
-                    else {
-                      return Center(child: NoDataWidget(text: 'No hay ordenes'));
-                    }
-                  }
-              );
+              return _ordersByStatus(status);
             }).toList(),
-          )
-      ),
-    ));
-  }
-
-  Widget _cardOrder(Order order) {
-    return GestureDetector(
-      onTap: () => con.goToOrderDetail(order),
-      child: Container(
-        height: 150,
-        margin: EdgeInsets.only(left: 20, right: 20, top: 10),
-        child: Card(
-          elevation: 3.0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15)
-          ),
-          child: Stack(
-            children: [
-              Container(
-                height: 30,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(15),
-                    topRight: Radius.circular(15),
-                  )
-                ),
-                child: Container(
-                  margin: EdgeInsets.only(top: 5),
-                  child: Text(
-                    'Order #${order.id}',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      color: Colors.amber
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 15, left: 20, right: 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                        width: double.infinity,
-                        margin: EdgeInsets.only(top: 5),
-                        alignment: Alignment.centerLeft,
-                        child: Text('Pedido: ${ RelativeTimeUtil.getRelativeTime(order.timestamp ?? 0)}')
-                    ),
-                    Container(
-                        width: double.infinity,
-                        margin: EdgeInsets.only(top: 5),
-                        alignment: Alignment.centerLeft,
-                        child: Text('Cliente: ${order.client?.name ?? ''} ${order.client?.lastname ?? ''}'),
-                    ),
-                    Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.only(top: 5),
-                      alignment: Alignment.centerLeft,
-                      child: Text('Entregar en: ${order.address?.address ?? ''}'),
-                    ),
-
-
-                  ],
-                ),
-              ),
-            ],
           ),
         ),
       ),
     );
   }
 
+  PreferredSizeWidget _header(BuildContext context) {
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(104),
+      child: Container(
+        color: AppColors.background,
+        child: SafeArea(
+          bottom: false,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(18, 10, 18, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Entregas', style: Theme.of(context).textTheme.titleLarge),
+                const SizedBox(height: 10),
+                TabBar(
+                  isScrollable: true,
+                  indicatorSize: TabBarIndicatorSize.label,
+                  dividerColor: Colors.transparent,
+                  tabs: List<Widget>.generate(con.status.length, (index) {
+                    return Tab(child: Text(con.status[index]));
+                  }),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _ordersByStatus(String status) {
+    return FutureBuilder(
+      future: con.getOrders(status),
+      builder: (context, AsyncSnapshot<List<Order>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+          return ListView.builder(
+            padding: const EdgeInsets.fromLTRB(0, 10, 0, 96),
+            itemCount: snapshot.data?.length ?? 0,
+            itemBuilder: (_, index) {
+              return _cardOrder(snapshot.data![index]);
+            },
+          );
+        }
+
+        return const NoDataWidget(text: 'No hay órdenes');
+      },
+    );
+  }
+
+  Widget _cardOrder(Order order) {
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 760),
+        child: AppOrderCard(
+          orderId: '${order.id}',
+          dateText: RelativeTimeUtil.getRelativeTime(order.timestamp ?? 0),
+          personLabel: 'Cliente',
+          personName:
+              '${order.client?.name ?? ''} ${order.client?.lastname ?? ''}',
+          address: order.address?.address ?? '',
+          onTap: () => con.goToOrderDetail(order),
+        ),
+      ),
+    );
+  }
 }

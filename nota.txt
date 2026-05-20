@@ -1,0 +1,1 @@
+1. Al momento de registrarse un nuevo usuario, si bien está validado los correos duplicados se debe anunciar el error de forma específica y no de forma general como está ahora.

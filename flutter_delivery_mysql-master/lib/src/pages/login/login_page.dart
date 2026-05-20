@@ -1,182 +1,192 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:udemy_flutter_delivery/src/pages/login/login_controller.dart';
+import 'package:udemy_flutter_delivery/src/theme/app_theme.dart';
 
 class LoginPage extends StatelessWidget {
-
-  LoginController con = Get.put(LoginController());
+  final LoginController con = Get.put(LoginController());
 
   LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: SafeArea(
-          child: Container(
-            margin: EdgeInsets.only(bottom: 10, top: 10),
-            child: _textDontHaveAccount(),
-          ),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final isWide = constraints.maxWidth >= 720;
+
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: Column(
+                children: [
+                  _hero(context, isWide),
+                  Transform.translate(
+                    offset: const Offset(0, -46),
+                    child: _boxForm(context, isWide),
+                  ),
+                  Transform.translate(
+                    offset: const Offset(0, -20),
+                    child: _textDontHaveAccount(),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _hero(BuildContext context, bool isWide) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.fromLTRB(24, isWide ? 54 : 34, 24, 84),
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [AppColors.primary, AppColors.primaryDark],
         ),
-      body: Stack( // POSICIONAR ELEMENTOS UNO ENCIMA DEL OTRO
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(34)),
+      ),
+      child: Column(
         children: [
-          _backgroundCover(context),
-          _boxForm(context),
-          Column( // POSICIONAR ELEMENTOS UNO DEBAJO DEL OTRO (VERTICAL)
-            children: [
-                _imageCover(),
-              _textAppName()
-            ],
+          Container(
+            width: isWide ? 132 : 112,
+            height: isWide ? 132 : 112,
+            padding: const EdgeInsets.all(18),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(34),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.14),
+                  blurRadius: 28,
+                  offset: const Offset(0, 14),
+                ),
+              ],
+            ),
+            child: Image.asset('assets/img/delivery.png'),
+          ),
+          const SizedBox(height: 18),
+          const Text(
+            'RapiBite',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 32,
+              fontWeight: FontWeight.w900,
+            ),
+          ),
+          const SizedBox(height: 6),
+          const Text(
+            'Entrega rápida, comida caliente',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _backgroundCover(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.42,
-      color: Colors.amber,
-    );
-  }
-
-  Widget _textAppName() {
-    return Text(
-      'RapiBite',
-      style: TextStyle(
-        fontSize: 25,
-        fontWeight: FontWeight.bold,
-        color: Colors.black
-      ),
-    );
-  }
-
-  Widget _boxForm(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.45,
-      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.35, left: 50, right: 50),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color: Colors.black54,
-            blurRadius: 50,
-            offset: Offset(0, 0.75)
-          )
-        ]
-      ),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            _textYourInfo(),
-            _textFieldEmail(),
-            _textFieldPassword(),
-            _buttonLogin()
-          ],
+  Widget _boxForm(BuildContext context, bool isWide) {
+    return Center(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: isWide ? 440 : 360),
+        child: Card(
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(22, 26, 22, 22),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  'Bienvenido de nuevo',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                const SizedBox(height: 6),
+                const Text(
+                  'Ingresa tus datos para continuar.',
+                  style: TextStyle(color: AppColors.muted, fontSize: 14),
+                ),
+                const SizedBox(height: 24),
+                _textFieldEmail(),
+                const SizedBox(height: 14),
+                _textFieldPassword(),
+                const SizedBox(height: 24),
+                _buttonLogin(),
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
 
   Widget _textFieldEmail() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 40),
-      child: TextField(
-        controller: con.emailController,
-        keyboardType: TextInputType.emailAddress,
-        decoration: InputDecoration(
-          hintText: 'Correo electronico',
-          prefixIcon: Icon(Icons.email)
-        ),
+    return TextField(
+      controller: con.emailController,
+      keyboardType: TextInputType.emailAddress,
+      decoration: const InputDecoration(
+        labelText: 'Correo electrónico',
+        hintText: 'correo@ejemplo.com',
+        prefixIcon: Icon(Icons.email_outlined),
       ),
     );
   }
 
   Widget _textFieldPassword() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 40),
-      child: TextField(
-        controller: con.passwordController,
-        keyboardType: TextInputType.text,
-        obscureText: true,
-        decoration: InputDecoration(
-          hintText: 'Contraseña',
-          prefixIcon: Icon(Icons.lock)
-        ),
+    return TextField(
+      controller: con.passwordController,
+      keyboardType: TextInputType.text,
+      obscureText: true,
+      decoration: const InputDecoration(
+        labelText: 'Contraseña',
+        hintText: 'Ingresa tu contraseña',
+        prefixIcon: Icon(Icons.lock_outline),
       ),
     );
   }
 
   Widget _buttonLogin() {
-    return Container(
-      width: double.infinity,
-      margin: EdgeInsets.symmetric(horizontal: 40, vertical: 40),
-      child: ElevatedButton(
-          onPressed: () => con.login(),
-          style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.symmetric(vertical: 15)
-          ),
-          child: Text(
-            'LOGIN',
-            style: TextStyle(
-              color: Colors.black
-            ),
-          )
-      ),
-    );
-  }
-
-  Widget _textYourInfo() {
-    return Container(
-      margin: EdgeInsets.only(top: 40, bottom: 45),
-      child: Text(
-        'INGRESA ESTA INFORMACION',
-        style: TextStyle(
-          color: Colors.black,
-        ),
-      ),
+    return ElevatedButton(
+      onPressed: () => con.login(),
+      child: const Text('Ingresar'),
     );
   }
 
   Widget _textDontHaveAccount() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          '¿No tienes cuenta?',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 17,
-          ),
-        ),
-        SizedBox(width: 7),
-        GestureDetector(
-          onTap: () => con.goToRegisterPage(),
-          child: Text(
-            'Regístrate Aquí',
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+      child: Wrap(
+        alignment: WrapAlignment.center,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        spacing: 6,
+        children: [
+          const Text(
+            '¿No tienes cuenta?',
             style: TextStyle(
-              color: Colors.amber,
-              fontWeight: FontWeight.bold,
-              fontSize: 17,
+              color: AppColors.muted,
+              fontSize: 15,
             ),
           ),
-        ),
-      ],
-    );
-  }
-
-  // PRIVADO
-  Widget _imageCover() {
-    return SafeArea(
-      child: Container(
-        margin: EdgeInsets.only(top: 20, bottom: 15),
-        alignment: Alignment.center,
-        child: Image.asset(
-          'assets/img/delivery.png',
-          width: 130,
-          height: 130,
-        ),
+          GestureDetector(
+            onTap: () => con.goToRegisterPage(),
+            child: const Text(
+              'Regístrate aquí',
+              style: TextStyle(
+                color: AppColors.primary,
+                fontWeight: FontWeight.w800,
+                fontSize: 15,
+              ),
+            ),
+          ),
+        ],
       ),
-    ) ;
+    );
   }
 }

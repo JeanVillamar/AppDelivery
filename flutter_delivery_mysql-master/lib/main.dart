@@ -28,10 +28,12 @@ import 'package:udemy_flutter_delivery/src/pages/restaurant/orders/detail/restau
 import 'package:udemy_flutter_delivery/src/pages/restaurant/orders/list/restaurant_orders_list_page.dart';
 import 'package:udemy_flutter_delivery/src/pages/roles/roles_page.dart';
 import 'package:udemy_flutter_delivery/src/providers/push_notifications_provider.dart';
+import 'package:udemy_flutter_delivery/src/theme/app_theme.dart';
 import 'package:udemy_flutter_delivery/src/utils/firebase_config.dart';
 
 User userSession = User.fromJson(GetStorage().read('user') ?? {});
-PushNotificationsProvider pushNotificationsProvider = PushNotificationsProvider();
+PushNotificationsProvider pushNotificationsProvider =
+    PushNotificationsProvider();
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -60,7 +62,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   void initState() {
     // TODO: implement initState
@@ -77,46 +78,64 @@ class _MyAppState extends State<MyApp> {
       title: 'Delivery Udemy',
       debugShowCheckedModeBanner: false,
       // initialRoute: '/client/payments/create',
-      initialRoute: userSession.id != null ? userSession.roles!.length > 1 ? '/roles' : '/client/home' : '/',
+      initialRoute: userSession.id != null
+          ? userSession.roles!.length > 1
+              ? '/roles'
+              : '/client/home'
+          : '/',
       getPages: [
         GetPage(name: '/', page: () => LoginPage()),
         GetPage(name: '/register', page: () => RegisterPage()),
         GetPage(name: '/home', page: () => HomePage()),
         GetPage(name: '/roles', page: () => RolesPage()),
         GetPage(name: '/restaurant/home', page: () => RestaurantHomePage()),
-        GetPage(name: '/restaurant/orders/list', page: () => RestaurantOrdersListPage()),
-        GetPage(name: '/restaurant/orders/detail', page: () => RestaurantOrdersDetailPage()),
-        GetPage(name: '/delivery/orders/list', page: () => DeliveryOrdersListPage()),
-        GetPage(name: '/delivery/orders/detail', page: () => DeliveryOrdersDetailPage()),
-        GetPage(name: '/delivery/orders/map', page: () => DeliveryOrdersMapPage()),
+        GetPage(
+            name: '/restaurant/orders/list',
+            page: () => RestaurantOrdersListPage()),
+        GetPage(
+            name: '/restaurant/orders/detail',
+            page: () => RestaurantOrdersDetailPage()),
+        GetPage(
+            name: '/delivery/orders/list',
+            page: () => DeliveryOrdersListPage()),
+        GetPage(
+            name: '/delivery/orders/detail',
+            page: () => DeliveryOrdersDetailPage()),
+        GetPage(
+            name: '/delivery/orders/map', page: () => DeliveryOrdersMapPage()),
         GetPage(name: '/delivery/home', page: () => DeliveryHomePage()),
         GetPage(name: '/client/home', page: () => ClientHomePage()),
-        GetPage(name: '/client/products/list', page: () => ClientProductsListPage()),
-        GetPage(name: '/client/profile/info', page: () => ClientProfileInfoPage()),
-        GetPage(name: '/client/profile/update', page: () => ClientProfileUpdatePage()),
-        GetPage(name: '/client/orders/create', page: () => ClientOrdersCreatePage()),
-        GetPage(name: '/client/orders/detail', page: () => ClientOrdersDetailPage()),
+        GetPage(
+            name: '/client/products/list',
+            page: () => ClientProductsListPage()),
+        GetPage(
+            name: '/client/profile/info', page: () => ClientProfileInfoPage()),
+        GetPage(
+            name: '/client/profile/update',
+            page: () => ClientProfileUpdatePage()),
+        GetPage(
+            name: '/client/orders/create',
+            page: () => ClientOrdersCreatePage()),
+        GetPage(
+            name: '/client/orders/detail',
+            page: () => ClientOrdersDetailPage()),
         GetPage(name: '/client/orders/map', page: () => ClientOrdersMapPage()),
-        GetPage(name: '/client/address/create', page: () => ClientAddressCreatePage()),
-        GetPage(name: '/client/address/list', page: () => ClientAddressListPage()),
-        GetPage(name: '/client/payments/create', page: () => ClientPaymentsCreatePage()),
-        GetPage(name: '/client/payments/installments', page: () => ClientPaymentsInstallmentsPage()),
-        GetPage(name: '/client/payments/status', page: () => ClientPaymentsStatusPage()),
+        GetPage(
+            name: '/client/address/create',
+            page: () => ClientAddressCreatePage()),
+        GetPage(
+            name: '/client/address/list', page: () => ClientAddressListPage()),
+        GetPage(
+            name: '/client/payments/create',
+            page: () => ClientPaymentsCreatePage()),
+        GetPage(
+            name: '/client/payments/installments',
+            page: () => ClientPaymentsInstallmentsPage()),
+        GetPage(
+            name: '/client/payments/status',
+            page: () => ClientPaymentsStatusPage()),
       ],
-      theme: ThemeData(
-        primaryColor: Colors.amber,
-        colorScheme: ColorScheme(
-          primary: Color(0xFFD62828),
-          secondary: Color(0xFFF4A261),
-          brightness: Brightness.light,
-          onPrimary: Colors.grey,
-          surface: Colors.grey,
-          onSurface: Colors.grey,
-          error: Colors.grey,
-          onError: Colors.grey,
-          onSecondary: Colors.grey
-        )
-      ),
+      theme: AppTheme.light,
       navigatorKey: Get.key,
     );
   }
