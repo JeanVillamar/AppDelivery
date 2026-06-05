@@ -5,6 +5,7 @@ import 'package:udemy_flutter_delivery/src/models/product.dart';
 import 'package:udemy_flutter_delivery/src/pages/client/products/list/client_products_list_controller.dart';
 import 'package:udemy_flutter_delivery/src/theme/app_theme.dart';
 import 'package:udemy_flutter_delivery/src/widgets/no_data_widget.dart';
+import 'dart:math' as math;
 
 class ClientProductsListPage extends StatelessWidget {
   final ClientProductsListController con =
@@ -36,10 +37,42 @@ class ClientProductsListPage extends StatelessWidget {
     });
   }
 
-  PreferredSizeWidget _catalogHeader(BuildContext context,
-      {bool hasTabs = true}) {
+  double _catalogHeaderHeight(BuildContext context, {required bool hasTabs}) {
+    final textScaler = MediaQuery.textScalerOf(context);
+
+    final titleHeight = textScaler.scale(28);
+    final subtitleHeight = textScaler.scale(22);
+
+    const topPadding = 10.0;
+    const titleGap = 4.0;
+    const gapAfterTitleBlock = 14.0;
+    const searchHeight = 48.0;
+    const gapBeforeTabs = 10.0;
+    const tabsHeight = kTextTabBarHeight;
+
+    const bottomSafetyPadding = 8.0; // clave
+
+    final titleBlockHeight = math.max(
+      titleHeight + titleGap + subtitleHeight,
+      44.0,
+    );
+
+    return topPadding +
+        titleBlockHeight +
+        gapAfterTitleBlock +
+        searchHeight +
+        (hasTabs ? gapBeforeTabs + tabsHeight : 0) +
+        bottomSafetyPadding;
+  }
+
+  PreferredSizeWidget _catalogHeader(
+      BuildContext context, {
+        bool hasTabs = true,
+      }) {
     return PreferredSize(
-      preferredSize: Size.fromHeight(hasTabs ? 186 : 140),
+      preferredSize: Size.fromHeight(
+        _catalogHeaderHeight(context, hasTabs: hasTabs),
+      ),
       child: Container(
         color: AppColors.background,
         child: SafeArea(
@@ -70,23 +103,32 @@ class ClientProductsListPage extends StatelessWidget {
                     _iconShoppingBag(),
                   ],
                 ),
+
                 const SizedBox(height: 14),
-                _textFieldSearch(),
+
+                SizedBox(
+                  height: 48,
+                  child: _textFieldSearch(),
+                ),
+
                 if (hasTabs) ...[
                   const SizedBox(height: 10),
-                  TabBar(
-                    isScrollable: true,
-                    tabAlignment: TabAlignment.start,
-                    indicatorSize: TabBarIndicatorSize.label,
-                    dividerColor: Colors.transparent,
-                    tabs: List<Widget>.generate(con.categories.length, (index) {
-                      return Tab(
-                        child: Text(
-                          con.categories[index].name ?? '',
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      );
-                    }),
+                  SizedBox(
+                    height: kTextTabBarHeight,
+                    child: TabBar(
+                      isScrollable: true,
+                      tabAlignment: TabAlignment.start,
+                      indicatorSize: TabBarIndicatorSize.label,
+                      dividerColor: Colors.transparent,
+                      tabs: List.generate(con.categories.length, (index) {
+                        return Tab(
+                          child: Text(
+                            con.categories[index].name ?? '',
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        );
+                      }),
+                    ),
                   ),
                 ],
               ],

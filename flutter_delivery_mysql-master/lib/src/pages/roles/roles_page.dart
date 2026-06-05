@@ -10,6 +10,27 @@ class RolesPage extends StatelessWidget {
 
   RolesPage({super.key});
 
+  double _roleCardExtent(BuildContext context) {
+    final textScaler = MediaQuery.textScalerOf(context);
+
+    const cardVerticalPadding = 36.0; // Padding all(18)
+    const imageHeight = 92.0;
+    const gapAfterImage = 16.0;
+    const gapBeforeAction = 6.0;
+    const safetyPadding = 12.0;
+
+    final titleHeight = textScaler.scale(22);
+    final actionHeight = textScaler.scale(20);
+
+    return cardVerticalPadding +
+        imageHeight +
+        gapAfterImage +
+        titleHeight +
+        gapBeforeAction +
+        actionHeight +
+        safetyPadding;
+  }
+
   @override
   Widget build(BuildContext context) {
     final roles = con.user.roles ?? [];
@@ -32,7 +53,7 @@ class RolesPage extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(18, 18, 18, 32),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: crossAxisCount,
-                    mainAxisExtent: 190,
+                    mainAxisExtent: _roleCardExtent(context),
                     crossAxisSpacing: 14,
                     mainAxisSpacing: 14,
                   ),
@@ -47,6 +68,7 @@ class RolesPage extends StatelessWidget {
 
   Widget _cardRol(BuildContext context, Rol rol) {
     return Card(
+      margin: EdgeInsets.zero,
       child: InkWell(
         borderRadius: BorderRadius.circular(18),
         onTap: () => con.goToPageRol(rol),
@@ -83,6 +105,8 @@ class RolesPage extends StatelessWidget {
               const SizedBox(height: 6),
               const Text(
                 'Entrar',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: AppColors.primary,
                   fontWeight: FontWeight.w800,
