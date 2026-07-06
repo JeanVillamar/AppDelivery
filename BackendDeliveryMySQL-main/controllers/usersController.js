@@ -111,16 +111,20 @@ module.exports = {
 
         if (files.length > 0) {
             const path = `image_${Date.now()}`;
-            const url = await storage(files[0], path);
+            try {
+                const url = await storage(files[0], path);
 
-            if (url != undefined && url != null) {
-                user.image = url;
+                if (url != undefined && url != null) {
+                    user.image = url;
+                }
+            } catch (error) {
+                console.log('No se pudo subir la imagen, continuando sin imagen:', error);
             }
         }
 
         User.create(user, (err, data) => {
 
-        
+
             if (err) {
                 return res.status(501).json({
                     success: false,
@@ -166,10 +170,14 @@ module.exports = {
 
         if (files.length > 0) {
             const path = `image_${Date.now()}`;
-            const url = await storage(files[0], path);
+            try {
+                const url = await storage(files[0], path);
 
-            if (url != undefined && url != null) {
-                user.image = url;
+                if (url != undefined && url != null) {
+                    user.image = url;
+                }
+            } catch (error) {
+                console.log('No se pudo subir la imagen, continuando sin imagen:', error);
             }
         }
 

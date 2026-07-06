@@ -68,7 +68,12 @@ module.exports = {
                 const start = async () => {
                     await asyncForEach(files, async (file) => {
                         const path = `image_${Date.now()}`;
-                        const url = await storage(file, path);
+                        let url;
+                        try {
+                            url = await storage(file, path);
+                        } catch (error) {
+                            console.log('No se pudo subir la imagen, continuando sin imagen:', error);
+                        }
 
                         if (url != undefined && url != null) { // CREO LA IMAGEN EN FIREBASE
                             if (inserts == 0) { //IMAGEN 1
