@@ -54,7 +54,7 @@ class ClientProductsDetailPage extends StatelessWidget {
   Widget _textDescriptionProduct() {
     return Text(
       product?.description ?? '',
-      style: const TextStyle(
+      style: TextStyle(
         color: AppColors.muted,
         fontSize: 16,
         height: 1.45,
@@ -68,7 +68,7 @@ class ClientProductsDetailPage extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(18, 14, 18, 14),
         decoration: BoxDecoration(
           color: AppColors.surface,
-          border: const Border(top: BorderSide(color: AppColors.border)),
+          border: Border(top: BorderSide(color: AppColors.border)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.08),
@@ -114,7 +114,7 @@ class ClientProductsDetailPage extends StatelessWidget {
             child: Text(
               '${counter.value}',
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: TextStyle(
                 color: AppColors.ink,
                 fontSize: 17,
                 fontWeight: FontWeight.w900,

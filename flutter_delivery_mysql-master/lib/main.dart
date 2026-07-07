@@ -29,6 +29,7 @@ import 'package:udemy_flutter_delivery/src/pages/restaurant/orders/list/restaura
 import 'package:udemy_flutter_delivery/src/pages/roles/roles_page.dart';
 import 'package:udemy_flutter_delivery/src/providers/push_notifications_provider.dart';
 import 'package:udemy_flutter_delivery/src/theme/app_theme.dart';
+import 'package:udemy_flutter_delivery/src/theme/theme_service.dart';
 import 'package:udemy_flutter_delivery/src/utils/firebase_config.dart';
 
 User userSession = User.fromJson(GetStorage().read('user') ?? {});
@@ -45,6 +46,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 void main() async {
   await GetStorage.init();
+  ThemeService.init();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: FirebaseConfig.currentPlatform,
@@ -136,6 +138,8 @@ class _MyAppState extends State<MyApp> {
             page: () => ClientPaymentsStatusPage()),
       ],
       theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
+      themeMode: ThemeService.themeMode,
       navigatorKey: Get.key,
     );
   }

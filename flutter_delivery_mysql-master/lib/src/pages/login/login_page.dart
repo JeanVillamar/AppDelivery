@@ -109,7 +109,7 @@ class LoginPage extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 const SizedBox(height: 6),
-                const Text(
+                Text(
                   'Ingresa tus datos para continuar.',
                   style: TextStyle(color: AppColors.muted, fontSize: 14),
                 ),
@@ -167,7 +167,7 @@ class LoginPage extends StatelessWidget {
         crossAxisAlignment: WrapCrossAlignment.center,
         spacing: 6,
         children: [
-          const Text(
+          Text(
             '¿No tienes cuenta?',
             style: TextStyle(
               color: AppColors.muted,

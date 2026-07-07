@@ -38,7 +38,7 @@ class NoDataWidget extends StatelessWidget {
                     ),
               ),
               const SizedBox(height: 8),
-              const Text(
+              Text(
                 'Cuando haya información disponible aparecerá aquí.',
                 textAlign: TextAlign.center,
                 style: TextStyle(

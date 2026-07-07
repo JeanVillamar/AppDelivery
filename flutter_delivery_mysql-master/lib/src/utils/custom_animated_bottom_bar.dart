@@ -131,25 +131,27 @@ class _ItemWidget extends StatelessWidget {
                   ),
                   child: item.icon,
                 ),
-                AnimatedSize(
-                  duration: animationDuration,
-                  curve: curve,
-                  child: isSelected
-                      ? Padding(
-                          padding: const EdgeInsets.only(left: 6),
-                          child: DefaultTextStyle.merge(
-                            style: TextStyle(
-                              color: activeColor,
-                              fontWeight: FontWeight.w800,
-                              fontSize: 12,
+                Flexible(
+                  child: AnimatedSize(
+                    duration: animationDuration,
+                    curve: curve,
+                    child: isSelected
+                        ? Padding(
+                            padding: const EdgeInsets.only(left: 6),
+                            child: DefaultTextStyle.merge(
+                              style: TextStyle(
+                                color: activeColor,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 12,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: item.textAlign,
+                              child: item.title,
                             ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: item.textAlign,
-                            child: item.title,
-                          ),
-                        )
-                      : const SizedBox.shrink(),
+                          )
+                        : const SizedBox.shrink(),
+                  ),
                 ),
               ],
             ),

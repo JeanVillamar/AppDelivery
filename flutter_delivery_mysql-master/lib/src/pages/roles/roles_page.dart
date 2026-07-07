@@ -38,6 +38,14 @@ class RolesPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Elige tu perfil'),
+        actions: [
+          IconButton(
+            tooltip: 'Cerrar sesión',
+            icon: const Icon(Icons.power_settings_new),
+            onPressed: () => con.signOut(),
+          ),
+          const SizedBox(width: 6),
+        ],
       ),
       body: roles.isEmpty
           ? const NoDataWidget(text: 'No hay roles disponibles')

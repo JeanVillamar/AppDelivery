@@ -61,7 +61,7 @@ class AppOrderCard extends StatelessWidget {
                           dateText,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColors.muted,
                             fontSize: 13,
                           ),
@@ -69,7 +69,7 @@ class AppOrderCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const Icon(Icons.chevron_right, color: AppColors.muted),
+                  Icon(Icons.chevron_right, color: AppColors.muted),
                 ],
               ),
               const SizedBox(height: 14),
@@ -111,7 +111,7 @@ class _InfoLine extends StatelessWidget {
             text,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
+            style: TextStyle(
               color: AppColors.ink,
               fontSize: 14,
               height: 1.25,

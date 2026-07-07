@@ -93,7 +93,7 @@ class ClientProductsListPage extends StatelessWidget {
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
                           const SizedBox(height: 4),
-                          const Text(
+                          Text(
                             'Busca y agrega tus favoritos',
                             style: TextStyle(color: AppColors.muted),
                           ),
@@ -242,7 +242,7 @@ class ClientProductsListPage extends StatelessWidget {
                           product.description ?? '',
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: AppColors.muted,
                             fontSize: 13,
                             height: 1.25,
@@ -269,7 +269,7 @@ class ClientProductsListPage extends StatelessWidget {
                               ),
                             ),
                             const Spacer(),
-                            const Icon(
+                            Icon(
                               Icons.add_circle,
                               color: AppColors.ink,
                             ),

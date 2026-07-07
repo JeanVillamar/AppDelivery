@@ -31,7 +31,7 @@ INSERT INTO roles(
 )
 VALUES(
 	'RESTAURANTE',
-    '/restaurant/orders/list',
+    '/restaurant/home',
     '2022-03-27',
     '2022-03-27'
 );
@@ -44,7 +44,7 @@ INSERT INTO roles(
 )
 VALUES(
 	'REPARTIDOR',
-    '/delivery/orders/list',
+    '/delivery/home',
     '2022-03-27',
     '2022-03-27'
 );
@@ -57,7 +57,7 @@ INSERT INTO roles(
 )
 VALUES(
 	'CLIENTE',
-    '/client/products/list',
+    '/client/home',
     '2022-03-27',
     '2022-03-27'
 );

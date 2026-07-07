@@ -37,7 +37,7 @@ class ClientOrdersCreatePage extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(18, 14, 18, 14),
         decoration: BoxDecoration(
           color: AppColors.surface,
-          border: const Border(top: BorderSide(color: AppColors.border)),
+          border: Border(top: BorderSide(color: AppColors.border)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.08),
@@ -53,7 +53,7 @@ class ClientOrdersCreatePage extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'Total',
                     style: TextStyle(color: AppColors.muted, fontSize: 13),
                   ),
@@ -133,7 +133,7 @@ class ClientOrdersCreatePage extends StatelessWidget {
   Widget _textPrice(Product product) {
     return Text(
       '\$${product.price! * product.quantity!}',
-      style: const TextStyle(
+      style: TextStyle(
         color: AppColors.ink,
         fontWeight: FontWeight.w900,
       ),

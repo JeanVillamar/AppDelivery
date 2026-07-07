@@ -1,130 +1,123 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:udemy_flutter_delivery/src/pages/restaurant/categories/create/restaurant_categories_create_controller.dart';
+import 'package:udemy_flutter_delivery/src/theme/app_theme.dart';
 
 class RestaurantCategoriesCreatePage extends StatelessWidget {
-
-  RestaurantCategoriesCreateController con = Get.put(RestaurantCategoriesCreateController());
+  RestaurantCategoriesCreateController con =
+      Get.put(RestaurantCategoriesCreateController());
 
   RestaurantCategoriesCreatePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack( // POSICIONAR ELEMENTOS UNO ENCIMA DEL OTRO
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(20, 8, 20, 28),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _banner(),
+              const SizedBox(height: 24),
+              _sectionLabel('Información de la categoría'),
+              const SizedBox(height: 14),
+              _formCard(),
+              const SizedBox(height: 24),
+              _buttonCreate(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _banner() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 22),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [AppColors.primary, AppColors.primaryDark],
+        ),
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: Row(
         children: [
-          _backgroundCover(context),
-          _boxForm(context),
-          _textNewCategory(context),
+          Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.18),
+              borderRadius: BorderRadius.circular(18),
+            ),
+            child: const Icon(Icons.category, color: Colors.white, size: 32),
+          ),
+          const SizedBox(width: 16),
+          const Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Nueva categoría',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  'Agrupa tus productos por tipo',
+                  style: TextStyle(color: Colors.white70, fontSize: 13),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _backgroundCover(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.35,
-      color: Colors.amber,
+  Widget _sectionLabel(String text) {
+    return Text(
+      text.toUpperCase(),
+      style: TextStyle(
+        color: AppColors.muted,
+        fontSize: 12,
+        fontWeight: FontWeight.w800,
+        letterSpacing: 0.5,
+      ),
     );
   }
 
-  Widget _boxForm(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.45,
-      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.3, left: 50, right: 50),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: Colors.black54,
-                blurRadius: 15,
-                offset: Offset(0, 0.75)
-            )
-          ]
-      ),
-      child: SingleChildScrollView(
+  Widget _formCard() {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 20, 16, 20),
         child: Column(
           children: [
-            _textYourInfo(),
-            _textFieldName(),
-            _textFieldDescription(),
-            _buttonCreate(context)
-          ],
-        ),
-      ),
-    );
-  }
-
-
-
-  Widget _textFieldName() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 40),
-      child: TextField(
-        controller: con.nameController,
-        keyboardType: TextInputType.text,
-        decoration: InputDecoration(
-            hintText: 'Nombre',
-            prefixIcon: Icon(Icons.category)
-        ),
-      ),
-    );
-  }
-
-  Widget _textFieldDescription() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-      child: TextField(
-        controller: con.descriptionController,
-        keyboardType: TextInputType.text,
-        maxLines: 3,
-        decoration: InputDecoration(
-            hintText: 'Descripcion',
-            prefixIcon: Container(
-              margin: EdgeInsets.only(bottom: 40),
-              child: Icon(Icons.description)
-            )
-        ),
-      ),
-    );
-  }
-
-  Widget _buttonCreate(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      margin: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-      child: ElevatedButton(
-          onPressed: () {
-            con.createCategory();
-          },
-          style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(vertical: 15)
-          ),
-          child: Text(
-            'CREAR CATEGORIA',
-            style: TextStyle(
-                color: Colors.black
+            TextField(
+              controller: con.nameController,
+              keyboardType: TextInputType.text,
+              decoration: const InputDecoration(
+                labelText: 'Nombre',
+                hintText: 'Ej. Bebidas',
+                prefixIcon: Icon(Icons.category_outlined),
+              ),
             ),
-          )
-      ),
-    );
-  }
-
-  Widget _textNewCategory(BuildContext context) {
-
-    return SafeArea(
-      child: Container(
-        margin: EdgeInsets.only(top: 15),
-        alignment: Alignment.topCenter,
-        child: Column(
-          children: [
-            Icon(Icons.category, size: 100),
-            Text(
-              'NUEVA CATEGORIA',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 23
+            const SizedBox(height: 16),
+            TextField(
+              controller: con.descriptionController,
+              keyboardType: TextInputType.multiline,
+              maxLines: 3,
+              decoration: const InputDecoration(
+                labelText: 'Descripción',
+                hintText: 'Describe brevemente la categoría',
+                alignLabelWithHint: true,
+                prefixIcon: Icon(Icons.description_outlined),
               ),
             ),
           ],
@@ -133,16 +126,14 @@ class RestaurantCategoriesCreatePage extends StatelessWidget {
     );
   }
 
-  Widget _textYourInfo() {
-    return Container(
-      margin: EdgeInsets.only(top: 40, bottom: 30),
-      child: Text(
-        'INGRESA ESTA INFORMACION',
-        style: TextStyle(
-          color: Colors.black,
-        ),
+  Widget _buttonCreate() {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton.icon(
+        onPressed: () => con.createCategory(),
+        icon: const Icon(Icons.add),
+        label: const Text('CREAR CATEGORIA'),
       ),
     );
   }
-
 }

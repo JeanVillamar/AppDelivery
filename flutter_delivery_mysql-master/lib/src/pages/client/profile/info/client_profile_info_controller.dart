@@ -1,10 +1,17 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:udemy_flutter_delivery/src/models/user.dart';
+import 'package:udemy_flutter_delivery/src/theme/theme_service.dart';
 
 class ClientProfileInfoController extends GetxController {
 
   var user = User.fromJson(GetStorage().read('user') ?? {}).obs;
+  var isDarkMode = ThemeService.isDark.obs;
+
+  void toggleDarkMode(bool value) {
+    isDarkMode.value = value;
+    ThemeService.setDark(value);
+  }
 
   void signOut() {
     GetStorage().remove('address');

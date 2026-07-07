@@ -4,239 +4,226 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:udemy_flutter_delivery/src/models/category.dart';
 import 'package:udemy_flutter_delivery/src/pages/restaurant/products/create/restaurant_products_create_controller.dart';
+import 'package:udemy_flutter_delivery/src/theme/app_theme.dart';
 
 class RestaurantProductsCreatePage extends StatelessWidget {
-
-  RestaurantProductsCreateController con = Get.put(RestaurantProductsCreateController());
+  RestaurantProductsCreateController con =
+      Get.put(RestaurantProductsCreateController());
 
   RestaurantProductsCreatePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Obx(() => Stack( // POSICIONAR ELEMENTOS UNO ENCIMA DEL OTRO
-        children: [
-          _backgroundCover(context),
-          _boxForm(context),
-          _textNewCategory(context),
-        ],
-      )),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(20, 8, 20, 28),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _banner(),
+              const SizedBox(height: 24),
+              _sectionLabel('Datos del producto'),
+              const SizedBox(height: 14),
+              _formCard(),
+              const SizedBox(height: 20),
+              _sectionLabel('Imágenes del producto'),
+              const SizedBox(height: 14),
+              _imagesCard(context),
+              const SizedBox(height: 24),
+              _buttonCreate(context),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
-  Widget _backgroundCover(BuildContext context) {
+  Widget _banner() {
     return Container(
       width: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.35,
-      color: Colors.amber,
+      padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 22),
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [AppColors.primary, AppColors.primaryDark],
+        ),
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.18),
+              borderRadius: BorderRadius.circular(18),
+            ),
+            child: const Icon(Icons.fastfood, color: Colors.white, size: 30),
+          ),
+          const SizedBox(width: 16),
+          const Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Nuevo producto',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                SizedBox(height: 4),
+                Text(
+                  'Agrega un platillo a tu catálogo',
+                  style: TextStyle(color: Colors.white70, fontSize: 13),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _boxForm(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.7,
-      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.18, left: 50, right: 50),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: Colors.black54,
-                blurRadius: 15,
-                offset: Offset(0, 0.75)
-            )
-          ]
+  Widget _sectionLabel(String text) {
+    return Text(
+      text.toUpperCase(),
+      style: TextStyle(
+        color: AppColors.muted,
+        fontSize: 12,
+        fontWeight: FontWeight.w800,
+        letterSpacing: 0.5,
       ),
-      child: SingleChildScrollView(
+    );
+  }
+
+  Widget _formCard() {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 20, 16, 20),
         child: Column(
           children: [
-            _textYourInfo(),
-            _textFieldName(),
-            _textFieldDescription(),
-            _textFieldPrice(),
-            _dropDownCategories(con.categories),
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GetBuilder<RestaurantProductsCreateController>(
-                      builder: (value) =>_cardImage(context, con.imageFile1, 1)
-                  ),
-                  GetBuilder<RestaurantProductsCreateController>(
-                      builder: (value) =>_cardImage(context, con.imageFile2, 2)
-                  ),
-                  GetBuilder<RestaurantProductsCreateController>(
-                      builder: (value) =>_cardImage(context, con.imageFile3, 3)
-                  ),
-                ],
+            TextField(
+              controller: con.nameController,
+              keyboardType: TextInputType.text,
+              decoration: const InputDecoration(
+                labelText: 'Nombre',
+                hintText: 'Ej. Hamburguesa clásica',
+                prefixIcon: Icon(Icons.fastfood_outlined),
               ),
             ),
-
-            _buttonCreate(context)
+            const SizedBox(height: 16),
+            TextField(
+              controller: con.descriptionController,
+              keyboardType: TextInputType.multiline,
+              maxLines: 3,
+              decoration: const InputDecoration(
+                labelText: 'Descripción',
+                hintText: 'Ingredientes, tamaño, etc.',
+                alignLabelWithHint: true,
+                prefixIcon: Icon(Icons.description_outlined),
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: con.priceController,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                labelText: 'Precio',
+                hintText: '0.00',
+                prefixIcon: Icon(Icons.attach_money),
+              ),
+            ),
+            const SizedBox(height: 16),
+            _dropDownCategories(),
           ],
         ),
       ),
     );
   }
 
-  Widget _dropDownCategories(List<Category> categories) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 50),
-      margin: EdgeInsets.only(top: 15),
-      child: DropdownButton(
-        underline: Container(
-          alignment: Alignment.centerRight,
-          child: Icon(
-            Icons.arrow_drop_down_circle,
-            color: Colors.amber,
-          ),
-        ),
-        elevation: 3,
+  Widget _dropDownCategories() {
+    return Obx(
+      () => DropdownButtonFormField<String>(
         isExpanded: true,
-        hint: Text(
-          'Seleccionar categoria',
-          style: TextStyle(
-
-            fontSize: 15
-          ),
+        decoration: const InputDecoration(
+          labelText: 'Categoría',
+          prefixIcon: Icon(Icons.local_offer_outlined),
         ),
-        items: _dropDownItems(categories),
+        hint: const Text('Seleccionar categoría'),
         value: con.idCategory.value == '' ? null : con.idCategory.value,
-        onChanged: (option) {
-          print('Opcion seleccionada $option');
-          con.idCategory.value = option.toString();
-        },
+        items: _dropDownItems(con.categories),
+        onChanged: (option) => con.idCategory.value = option ?? '',
       ),
     );
   }
 
   List<DropdownMenuItem<String>> _dropDownItems(List<Category> categories) {
-    List<DropdownMenuItem<String>> list = [];
-    for (var category in categories) {
-      list.add(DropdownMenuItem(
-          value: category.id,
-          child: Text(category.name ?? ''),
-      ));
-    }
+    return categories
+        .map((category) => DropdownMenuItem<String>(
+              value: category.id,
+              child: Text(category.name ?? ''),
+            ))
+        .toList();
+  }
 
-    return list;
+  Widget _imagesCard(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            GetBuilder<RestaurantProductsCreateController>(
+              builder: (_) => _cardImage(context, con.imageFile1, 1),
+            ),
+            GetBuilder<RestaurantProductsCreateController>(
+              builder: (_) => _cardImage(context, con.imageFile2, 2),
+            ),
+            GetBuilder<RestaurantProductsCreateController>(
+              builder: (_) => _cardImage(context, con.imageFile3, 3),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _cardImage(BuildContext context, File? imageFile, int numberFile) {
+    final size = MediaQuery.of(context).size.width * 0.22;
     return GestureDetector(
       onTap: () => con.showAlertDialog(context, numberFile),
-      child: Card(
-        elevation: 3,
-        child: Container(
-            padding: EdgeInsets.all(10),
-            height: 70,
-            width: MediaQuery.of(context).size.width * 0.18,
-            child:  imageFile != null
-            ? Image.file(
-              imageFile,
-              fit: BoxFit.cover,
-            )
-            : Image(
-              image: AssetImage('assets/img/cover_image.png'),
-            )
+      child: Container(
+        height: size,
+        width: size,
+        decoration: BoxDecoration(
+          color: AppColors.primary.withValues(alpha: 0.06),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AppColors.border),
         ),
-      )
-    );
-  }
-
-  Widget _textFieldName() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30),
-      child: TextField(
-        controller: con.nameController,
-        keyboardType: TextInputType.text,
-        decoration: InputDecoration(
-            hintText: 'Nombre',
-            prefixIcon: Icon(Icons.category)
-        ),
-      ),
-    );
-  }
-
-  Widget _textFieldPrice() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30),
-      child: TextField(
-        controller: con.priceController,
-        keyboardType: TextInputType.number,
-        decoration: InputDecoration(
-            hintText: 'Precio',
-            prefixIcon: Icon(Icons.attach_money)
-        ),
-      ),
-    );
-  }
-
-  Widget _textFieldDescription() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-      child: TextField(
-        controller: con.descriptionController,
-        keyboardType: TextInputType.text,
-        maxLines: 3,
-        decoration: InputDecoration(
-            hintText: 'Descripcion',
-            prefixIcon: Container(
-              margin: EdgeInsets.only(bottom: 40),
-              child: Icon(Icons.description)
-            )
-        ),
+        clipBehavior: Clip.antiAlias,
+        child: imageFile != null
+            ? Image.file(imageFile, fit: BoxFit.cover)
+            : Icon(
+                Icons.add_a_photo_outlined,
+                color: AppColors.muted,
+                size: size * 0.35,
+              ),
       ),
     );
   }
 
   Widget _buttonCreate(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
-      margin: EdgeInsets.only(left: 30, right: 30, top: 18),
-      child: ElevatedButton(
-          onPressed: () {
-            con.createProduct(context);
-          },
-          style: ElevatedButton.styleFrom(
-              padding: EdgeInsets.symmetric(vertical: 15)
-          ),
-          child: Text(
-            'CREAR PRODUCTO',
-            style: TextStyle(
-                color: Colors.black
-            ),
-          )
+      child: ElevatedButton.icon(
+        onPressed: () => con.createProduct(context),
+        icon: const Icon(Icons.add),
+        label: const Text('CREAR PRODUCTO'),
       ),
     );
   }
-
-  Widget _textNewCategory(BuildContext context) {
-
-    return SafeArea(
-      child: Container(
-        margin: EdgeInsets.only(top: 25),
-        alignment: Alignment.topCenter,
-        child: Text(
-          'NUEVO PRODUCTO',
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 23
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _textYourInfo() {
-    return Container(
-      margin: EdgeInsets.only(top: 40, bottom: 30),
-      child: Text(
-        'INGRESA ESTA INFORMACION',
-        style: TextStyle(
-          color: Colors.black,
-        ),
-      ),
-    );
-  }
-
 }

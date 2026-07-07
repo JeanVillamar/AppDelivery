@@ -40,7 +40,7 @@ class ClientOrdersDetailPage extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(18, 14, 18, 16),
         decoration: BoxDecoration(
           color: AppColors.surface,
-          border: const Border(top: BorderSide(color: AppColors.border)),
+          border: Border(top: BorderSide(color: AppColors.border)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.08),
@@ -113,7 +113,7 @@ class ClientOrdersDetailPage extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.muted,
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
@@ -124,7 +124,7 @@ class ClientOrdersDetailPage extends StatelessWidget {
                   subtitle,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: AppColors.ink,
                     fontWeight: FontWeight.w700,
                   ),
@@ -162,7 +162,7 @@ class ClientOrdersDetailPage extends StatelessWidget {
                       const SizedBox(height: 6),
                       Text(
                         'Cantidad: ${product.quantity}',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.muted,
                           fontSize: 13,
                         ),

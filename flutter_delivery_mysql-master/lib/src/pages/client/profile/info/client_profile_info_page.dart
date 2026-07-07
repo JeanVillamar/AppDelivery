@@ -50,7 +50,7 @@ class ClientProfileInfoPage extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [AppColors.ink, Color(0xFF263648)],
+          colors: [AppColors.headerDark, AppColors.headerDarkEnd],
         ),
         borderRadius: BorderRadius.vertical(bottom: Radius.circular(34)),
       ),
@@ -131,6 +131,8 @@ class ClientProfileInfoPage extends StatelessWidget {
                     '${user.name ?? ''} ${user.lastname ?? ''}'),
                 _infoTile(Icons.email_outlined, 'Email', user.email ?? ''),
                 _infoTile(Icons.phone_outlined, 'Teléfono', user.phone ?? ''),
+                const Divider(height: 24),
+                _darkModeTile(),
                 const SizedBox(height: 12),
                 SizedBox(
                   width: double.infinity,
@@ -143,6 +145,33 @@ class ClientProfileInfoPage extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _darkModeTile() {
+    return Obx(
+      () => SwitchListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 4),
+        secondary: Container(
+          width: 42,
+          height: 42,
+          decoration: BoxDecoration(
+            color: AppColors.primary.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(14),
+          ),
+          child: Icon(
+            con.isDarkMode.value ? Icons.dark_mode : Icons.light_mode,
+            color: AppColors.primary,
+          ),
+        ),
+        title: const Text(
+          'Modo oscuro',
+          style: TextStyle(fontWeight: FontWeight.w800),
+        ),
+        subtitle: Text(con.isDarkMode.value ? 'Activado' : 'Desactivado'),
+        value: con.isDarkMode.value,
+        onChanged: (value) => con.toggleDarkMode(value),
       ),
     );
   }
